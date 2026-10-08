@@ -3,557 +3,253 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Keyframe Awards - Voting Portal</title>
-    <link rel="icon" type="image/png" href="favicon.png">
-
-    <!-- Font Awesome for Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-    
+    <title>KeyFrame Awards - Voting Portal</title>
     <style>
         :root {
-            --deep-bg: #0d0221;
-            --card-bg: rgba(26, 0, 51, 0.7);
-            --neon-purple: #9d4edd;
-            --neon-cyan: #00f0ff;
-            --neon-pink: #ff007f;
-            --text-white: #ffffff;
-            --text-muted: #a0a0a0;
-            --border-purple: rgba(157, 78, 221, 0.3);
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            --bg-color: #0b0f19;
+            --card-bg: rgba(18, 24, 38, 0.7);
+            --accent-color: #00f0ff;
+            --text-main: #ffffff;
+            --text-muted: #94a3b8;
         }
 
         body {
-            background-color: var(--deep-bg);
-            color: var(--text-white);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            margin: 0;
+            padding: 20px;
         }
 
-        /* Header */
-        .vote-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px 5%;
-            background: rgba(13, 2, 33, 0.95);
-            border-bottom: 1px solid var(--border-purple);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-            backdrop-filter: blur(10px);
-        }
-
-        .brand-logo {
-            color: var(--text-white);
-            text-decoration: none;
-            font-size: 1.3rem;
-            font-weight: bold;
-            letter-spacing: 1px;
-            cursor: pointer;
-        }
-
-        .brand-logo span {
-            color: var(--neon-cyan);
-            font-size: 0.8rem;
-            text-transform: uppercase;
-            display: block;
-            letter-spacing: 3px;
-        }
-
-        .back-btn {
-            background: transparent;
-            border: 1px solid var(--neon-cyan);
-            color: var(--neon-cyan);
-            padding: 8px 16px;
-            border-radius: 8px;
-            text-decoration: none;
-            font-size: 0.85rem;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .back-btn:hover {
-            background: var(--neon-cyan);
-            color: var(--deep-bg);
-            box-shadow: 0 0 15px rgba(0, 240, 255, 0.4);
-        }
-
-        /* Hero Section */
-        .vote-hero {
+        header {
             text-align: center;
-            padding: 40px 20px 20px;
-            max-width: 800px;
-            margin: 0 auto;
+            margin-bottom: 40px;
         }
 
-        .vote-badge {
-            background: rgba(0, 240, 255, 0.1);
-            color: var(--neon-cyan);
-            border: 1px solid rgba(0, 240, 255, 0.3);
-            padding: 6px 14px;
-            border-radius: 20px;
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            font-weight: bold;
+        header h1 {
+            color: var(--accent-color);
+            font-size: 2.5rem;
+            margin-bottom: 5px;
         }
 
-        .vote-hero h1 {
-            font-size: 2.3rem;
-            margin: 15px 0 10px;
-            text-shadow: 0 0 15px var(--neon-purple);
-        }
-
-        .vote-hero p {
-            color: var(--text-muted);
-            font-size: 0.95rem;
-            line-height: 1.5;
-        }
-
-        /* Main Container */
-        .vote-container {
-            max-width: 1000px;
-            width: 90%;
-            margin: 0 auto 60px;
-            flex: 1;
-        }
-
-        /* Category Sections */
         .category-section {
-            background: var(--card-bg);
-            border: 1px solid var(--border-purple);
-            border-radius: 16px;
-            padding: 30px;
-            margin-bottom: 30px;
-            backdrop-filter: blur(10px);
-        }
-
-        .category-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-            padding-bottom: 12px;
+            margin-bottom: 40px;
         }
 
         .category-title {
-            font-size: 1.25rem;
-            color: var(--text-white);
+            font-size: 1.5rem;
+            color: var(--accent-color);
+            border-bottom: 2px solid rgba(0, 240, 255, 0.2);
+            padding-bottom: 10px;
+            margin-bottom: 20px;
         }
 
-        .vote-counter-badge {
-            background: rgba(157, 78, 221, 0.2);
-            color: var(--neon-purple);
-            border: 1px solid rgba(157, 78, 221, 0.4);
-            padding: 4px 10px;
-            border-radius: 12px;
-            font-size: 0.75rem;
-            font-weight: bold;
-        }
-
-        /* Nominees Grid */
         .nominees-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
             gap: 20px;
         }
 
         .nominee-card {
-            background: rgba(13, 2, 33, 0.6);
-            border: 1px solid rgba(255, 255, 255, 0.08);
+            background: var(--card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 12px;
             padding: 20px;
             text-align: center;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: space-between;
+            backdrop-filter: blur(10px);
             transition: transform 0.2s ease, border-color 0.2s ease;
         }
 
         .nominee-card:hover {
-            transform: translateY(-3px);
-            border-color: var(--neon-cyan);
+            transform: translateY(-5px);
+            border-color: var(--accent-color);
         }
 
-        .nominee-avatar {
-            width: 110px;
-            height: 110px;
+        .nominee-photo, .nominee-avatar {
+            width: 90px;
+            height: 90px;
             border-radius: 50%;
-            background: linear-gradient(135deg, var(--neon-purple), var(--neon-cyan));
+            object-fit: cover;
+            margin: 0 auto 15px auto;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-weight: 800;
-            font-size: 2rem;
-            color: var(--text-white);
-            margin-bottom: 15px;
-            box-shadow: 0 0 20px rgba(0, 240, 255, 0.3);
-            text-transform: uppercase;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: white;
+            background: linear-gradient(135deg, #00f0ff, #7000ff);
+            box-shadow: 0 0 15px rgba(0, 240, 255, 0.2);
             border: 2px solid rgba(255, 255, 255, 0.2);
         }
 
         .nominee-name {
-            font-size: 1.05rem;
+            font-size: 0.95rem;
             font-weight: 600;
             margin-bottom: 15px;
-            color: var(--text-white);
-        }
-
-        .vote-action-btn {
-            width: 100%;
-            background: rgba(0, 240, 255, 0.1);
-            color: var(--neon-cyan);
-            border: 1px solid var(--neon-cyan);
-            padding: 10px;
-            border-radius: 8px;
-            font-size: 0.85rem;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-
-        .vote-action-btn:hover:not(:disabled) {
-            background: var(--neon-cyan);
-            color: var(--deep-bg);
-        }
-
-        .vote-action-btn.voted {
-            background: var(--neon-purple);
-            border-color: var(--neon-purple);
-            color: white;
-            cursor: not-allowed;
-        }
-
-        /* SHARE CARD MODAL OVERLAY */
-        #share-modal {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(13, 2, 33, 0.85);
-            backdrop-filter: blur(8px);
+            height: 40px;
             display: flex;
             align-items: center;
             justify-content: center;
-            z-index: 9999;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.3s ease;
         }
 
-        #share-modal.active {
-            opacity: 1;
-            pointer-events: auto;
-        }
-
-        .share-card-container {
-            background: linear-gradient(135deg, #1a0033, #0d0221);
-            border: 2px solid var(--neon-cyan);
-            box-shadow: 0 0 30px rgba(0, 240, 255, 0.4);
-            border-radius: 20px;
-            padding: 30px;
-            width: 90%;
-            max-width: 420px;
-            text-align: center;
-            position: relative;
-        }
-
-        .share-preview-box {
-            background: rgba(0, 0, 0, 0.4);
-            border: 1px dashed var(--neon-pink);
-            border-radius: 12px;
-            padding: 20px;
-            margin: 20px 0;
-        }
-
-        .share-preview-box h4 {
-            color: var(--neon-cyan);
-            font-size: 0.8rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-bottom: 8px;
-        }
-
-        .share-preview-box p {
-            font-size: 1.15rem;
-            font-weight: bold;
-            color: var(--text-white);
-            margin-bottom: 5px;
-        }
-
-        .share-preview-box span {
-            font-size: 0.85rem;
-            color: var(--text-muted);
-        }
-
-        .modal-btn-row {
-            display: flex;
-            gap: 10px;
-            margin-top: 15px;
-        }
-
-        .modal-action-btn {
-            flex: 1;
-            padding: 10px;
-            border-radius: 8px;
-            font-weight: bold;
-            font-size: 0.85rem;
-            cursor: pointer;
-            border: none;
-            transition: all 0.2s;
-        }
-
-        .btn-twitter {
-            background: #1da1f2;
-            color: white;
-        }
-
-        .btn-whatsapp {
-            background: #25d366;
-            color: white;
-        }
-
-        .btn-copy {
+        .vote-action-btn {
             background: transparent;
-            border: 1px solid var(--text-white);
-            color: white;
-        }
-
-        .close-modal-x {
-            position: absolute;
-            top: 15px;
-            right: 20px;
-            background: none;
-            border: none;
-            color: var(--text-muted);
-            font-size: 1.2rem;
+            color: var(--accent-color);
+            border: 1px solid var(--accent-color);
+            padding: 8px 16px;
+            border-radius: 20px;
             cursor: pointer;
-        }
-
-        /* Toast Notification */
-        #custom-toast {
-            position: fixed;
-            bottom: -100px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(26, 0, 51, 0.95);
-            border: 2px solid #ff007f;
-            box-shadow: 0 0 20px rgba(255, 0, 127, 0.6);
-            color: #fff;
-            padding: 14px 28px;
-            border-radius: 50px;
             font-weight: bold;
-            font-size: 0.9rem;
-            z-index: 10000;
-            transition: bottom 0.4s ease;
-        }
-        #custom-toast.show {
-            bottom: 30px;
+            transition: background 0.2s, color 0.2s;
+            width: 100%;
         }
 
-        /* Footer */
-        .vote-footer {
-            text-align: center;
-            padding: 20px;
-            border-top: 1px solid var(--border-purple);
-            color: var(--text-muted);
-            font-size: 0.8rem;
-            background: rgba(13, 2, 33, 0.9);
+        .vote-action-btn:hover {
+            background: var(--accent-color);
+            color: var(--bg-color);
         }
     </style>
 </head>
 <body>
 
-    <!-- HEADER -->
-    <header class="vote-header">
-        <a href="https://keyframe-awards.com" class="brand-logo">
-            Keyframe Awards <span>Voting Portal</span>
-        </a>
-        <div class="nav-controls">
-            <a href="https://keyframe-awards.com" class="back-btn"><i class="fa-solid fa-arrow-left"></i> Main Site</a>
-        </div>
+    <header>
+        <h1>KeyFrame Awards</h1>
+        <p>Cast your votes for the biggest creators, shows, and moments!</p>
     </header>
 
-    <!-- HERO -->
-    <section class="vote-hero">
-        <div class="vote-badge">Official 2026 Ballot</div>
-        <h1>Cast Your Votes</h1>
-        <p>Support your favorite creators. Limit of 1 vote per category daily. Share your custom card after voting!</p>
-    </section>
-
-    <!-- VOTING CONTAINER -->
-    <main class="vote-container">
-        
-        <!-- Category 1 -->
-        <div class="category-section">
-            <div class="category-header">
-                <h3 class="category-title">Overall Creator of the Year</h3>
-                <span class="vote-counter-badge">1 Vote Daily</span>
-            </div>
+    <main>
+        <!-- Overall Creator of the Year -->
+        <section class="category-section">
+            <h2 class="category-title">Overall Creator of the Year</h2>
             <div class="nominees-grid">
-                <div class="nominee-card" id="card-Kai-Cenat">
-                    <div class="nominee-avatar">KC</div>
+                <div class="nominee-card">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/e/e3/Kai_Cenat_2023_%28cropped%29.jpg" alt="Kai Cenat" class="nominee-photo">
                     <div class="nominee-name">Kai Cenat</div>
-                    <button class="vote-action-btn" id="btn-Kai-Cenat" onclick="castVote('Overall Creator of the Year', 'Kai Cenat')">Vote</button>
+                    <button class="vote-action-btn" onclick="castVote('Overall Creator of the Year', 'Kai Cenat')">Vote</button>
                 </div>
-                <div class="nominee-card" id="card-IShowSpeed">
-                    <div class="nominee-avatar">IS</div>
+                <div class="nominee-card">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/3/32/IShowSpeed_November_2021_%2852502829419%29.jpg" alt="IShowSpeed" class="nominee-photo">
                     <div class="nominee-name">IShowSpeed</div>
-                    <button class="vote-action-btn" id="btn-IShowSpeed" onclick="castVote('Overall Creator of the Year', 'IShowSpeed')">Vote</button>
+                    <button class="vote-action-btn" onclick="castVote('Overall Creator of the Year', 'IShowSpeed')">Vote</button>
+                </div>
+                <div class="nominee-card">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/f/fc/MrBeast_in_2022.png" alt="MrBeast" class="nominee-photo">
+                    <div class="nominee-name">MrBeast</div>
+                    <button class="vote-action-btn" onclick="castVote('Overall Creator of the Year', 'MrBeast')">Vote</button>
+                </div>
+                <div class="nominee-card">
+                    <div class="nominee-avatar">xQ</div>
+                    <div class="nominee-name">xQc</div>
+                    <button class="vote-action-btn" onclick="castVote('Overall Creator of the Year', 'xQc')">Vote</button>
+                </div>
+                <div class="nominee-card">
+                    <div class="nominee-avatar">CS</div>
+                    <div class="nominee-name">CaseOh</div>
+                    <button class="vote-action-btn" onclick="castVote('Overall Creator of the Year', 'CaseOh')">Vote</button>
+                </div>
+                <div class="nominee-card">
+                    <div class="nominee-avatar">IB</div>
+                    <div class="nominee-name">Ibai</div>
+                    <button class="vote-action-btn" onclick="castVote('Overall Creator of the Year', 'Ibai')">Vote</button>
                 </div>
             </div>
-        </div>
+        </section>
 
+        <!-- Rising Star of the Year -->
+        <section class="category-section">
+            <h2 class="category-title">Rising Star of the Year</h2>
+            <div class="nominees-grid">
+                <div class="nominee-card"><div class="nominee-avatar">LY</div><div class="nominee-name">Lamine Yamal</div><button class="vote-action-btn" onclick="castVote('Rising Star', 'Lamine Yamal')">Vote</button></div>
+                <div class="nominee-card"><div class="nominee-avatar">IL</div><div class="nominee-name">ILLIT</div><button class="vote-action-btn" onclick="castVote('Rising Star', 'ILLIT')">Vote</button></div>
+                <div class="nominee-card"><div class="nominee-avatar">JY</div><div class="nominee-name">Jynxzi</div><button class="vote-action-btn" onclick="castVote('Rising Star', 'Jynxzi')">Vote</button></div>
+                <div class="nominee-card"><div class="nominee-avatar">IM</div><div class="nominee-name">Ironmouse</div><button class="vote-action-btn" onclick="castVote('Rising Star', 'Ironmouse')">Vote</button></div>
+                <div class="nominee-card"><div class="nominee-avatar">KT</div><div class="nominee-name">KATSEYE</div><button class="vote-action-btn" onclick="castVote('Rising Star', 'KATSEYE')">Vote</button></div>
+                <div class="nominee-card"><div class="nominee-avatar">CD</div><div class="nominee-name">Caedrel</div><button class="vote-action-btn" onclick="castVote('Rising Star', 'Caedrel')">Vote</button></div>
+            </div>
+        </section>
+
+        <!-- Viral Phenomenon of the Year -->
+        <section class="category-section">
+            <h2 class="category-title">Viral Phenomenon of the Year</h2>
+            <div class="nominees-grid">
+                <div class="nominee-card"><div class="nominee-avatar">67</div><div class="nominee-name">6-7 Meme</div><button class="vote-action-btn" onclick="castVote('Viral Phenomenon', '6-7 Meme')">Vote</button></div>
+                <div class="nominee-card"><div class="nominee-avatar">SX</div><div class="nominee-name">Saxophone sound</div><button class="vote-action-btn" onclick="castVote('Viral Phenomenon', 'Saxophone sound')">Vote</button></div>
+                <div class="nominee-card"><div class="nominee-avatar">LB</div><div class="nominee-name">Labubu</div><button class="vote-action-btn" onclick="castVote('Viral Phenomenon', 'Labubu')">Vote</button></div>
+                <div class="nominee-card"><div class="nominee-avatar">1G</div><div class="nominee-name">100 Men vs 1 Gorilla</div><button class="vote-action-btn" onclick="castVote('Viral Phenomenon', '100 Men vs 1 Gorilla')">Vote</button></div>
+            </div>
+        </section>
+
+        <!-- Meme Lord/Lady of the Year -->
+        <section class="category-section">
+            <h2 class="category-title">Meme Lord/Lady of the Year</h2>
+            <div class="nominees-grid">
+                <div class="nominee-card">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/3/32/IShowSpeed_November_2021_%2852502829419%29.jpg" alt="IShowSpeed" class="nominee-photo">
+                    <div class="nominee-name">IShowSpeed</div>
+                    <button class="vote-action-btn" onclick="castVote('Meme Lord', 'IShowSpeed')">Vote</button>
+                </div>
+                <div class="nominee-card">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/e/e3/Kai_Cenat_2023_%28cropped%29.jpg" alt="Kai Cenat" class="nominee-photo">
+                    <div class="nominee-name">Kai Cenat</div>
+                    <button class="vote-action-btn" onclick="castVote('Meme Lord', 'Kai Cenat')">Vote</button>
+                </div>
+                <div class="nominee-card"><div class="nominee-avatar">CS</div><div class="nominee-name">CaseOh</div><button class="vote-action-btn" onclick="castVote('Meme Lord', 'CaseOh')">Vote</button></div>
+                <div class="nominee-card"><div class="nominee-avatar">xQ</div><div class="nominee-name">xQc</div><button class="vote-action-btn" onclick="castVote('Meme Lord', 'xQc')">Vote</button></div>
+            </div>
+        </section>
+
+        <!-- Best K-pop Group -->
+        <section class="category-section">
+            <h2 class="category-title">Best K-pop Group</h2>
+            <div class="nominees-grid">
+                <div class="nominee-card"><div class="nominee-avatar">BTS</div><div class="nominee-name">BTS</div><button class="vote-action-btn" onclick="castVote('Best K-pop Group', 'BTS')">Vote</button></div>
+                <div class="nominee-card"><div class="nominee-avatar">BP</div><div class="nominee-name">BLACKPINK</div><button class="vote-action-btn" onclick="castVote('Best K-pop Group', 'BLACKPINK')">Vote</button></div>
+                <div class="nominee-card"><div class="nominee-avatar">SK</div><div class="nominee-name">Stray Kids</div><button class="vote-action-btn" onclick="castVote('Best K-pop Group', 'Stray Kids')">Vote</button></div>
+                <div class="nominee-card"><div class="nominee-avatar">SV</div><div class="nominee-name">SEVENTEEN</div><button class="vote-action-btn" onclick="castVote('Best K-pop Group', 'SEVENTEEN')">Vote</button></div>
+                <div class="nominee-card"><div class="nominee-avatar">ae</div><div class="nominee-name">aespa</div><button class="vote-action-btn" onclick="castVote('Best K-pop Group', 'aespa')">Vote</button></div>
+                <div class="nominee-card"><div class="nominee-avatar">IL</div><div class="nominee-name">ILLIT</div><button class="vote-action-btn" onclick="castVote('Best K-pop Group', 'ILLIT')">Vote</button></div>
+            </div>
+        </section>
+
+        <!-- Best Artist -->
+        <section class="category-section">
+            <h2 class="category-title">Best Artist</h2>
+            <div class="nominees-grid">
+                <div class="nominee-card"><div class="nominee-avatar">TS</div><div class="nominee-name">Taylor Swift</div><button class="vote-action-btn" onclick="castVote('Best Artist', 'Taylor Swift')">Vote</button></div>
+                <div class="nominee-card"><div class="nominee-avatar">LS</div><div class="nominee-name">Lisa</div><button class="vote-action-btn" onclick="castVote('Best Artist', 'Lisa')">Vote</button></div>
+                <div class="nominee-card"><div class="nominee-avatar">SC</div><div class="nominee-name">Sabrina Carpenter</div><button class="vote-action-btn" onclick="castVote('Best Artist', 'Sabrina Carpenter')">Vote</button></div>
+                <div class="nominee-card"><div class="nominee-avatar">BM</div><div class="nominee-name">Bruno Mars</div><button class="vote-action-btn" onclick="castVote('Best Artist', 'Bruno Mars')">Vote</button></div>
+                <div class="nominee-card"><div class="nominee-avatar">AD</div><div class="nominee-name">Adela</div><button class="vote-action-btn" onclick="castVote('Best Artist', 'Adela')">Vote</button></div>
+                <div class="nominee-card"><div class="nominee-avatar">ZL</div><div class="nominee-name">Zara Larsson</div><button class="vote-action-btn" onclick="castVote('Best Artist', 'Zara Larsson')">Vote</button></div>
+            </div>
+        </section>
+
+        <!-- Best Streamer / Creator -->
+        <section class="category-section">
+            <h2 class="category-title">Best Streamer / Creator</h2>
+            <div class="nominees-grid">
+                <div class="nominee-card">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/e/e3/Kai_Cenat_2023_%28cropped%29.jpg" alt="Kai Cenat" class="nominee-photo">
+                    <div class="nominee-name">Kai Cenat</div>
+                    <button class="vote-action-btn" onclick="castVote('Best Streamer', 'Kai Cenat')">Vote</button>
+                </div>
+                <div class="nominee-card"><div class="nominee-avatar">xQ</div><div class="nominee-name">xQc</div><button class="vote-action-btn" onclick="castVote('Best Streamer', 'xQc')">Vote</button></div>
+                <div class="nominee-card"><div class="nominee-avatar">CS</div><div class="nominee-name">CaseOh</div><button class="vote-action-btn" onclick="castVote('Best Streamer', 'CaseOh')">Vote</button></div>
+                <div class="nominee-card"><div class="nominee-avatar">JY</div><div class="nominee-name">Jynxzi</div><button class="vote-action-btn" onclick="castVote('Best Streamer', 'Jynxzi')">Vote</button></div>
+                <div class="nominee-card"><div class="nominee-avatar">IM</div><div class="nominee-name">Ironmouse</div><button class="vote-action-btn" onclick="castVote('Best Streamer', 'Ironmouse')">Vote</button></div>
+                <div class="nominee-card">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/3/32/IShowSpeed_November_2021_%2852502829419%29.jpg" alt="IShowSpeed" class="nominee-photo">
+                    <div class="nominee-name">IShowSpeed</div>
+                    <button class="vote-action-btn" onclick="castVote('Best Streamer', 'IShowSpeed')">Vote</button>
+                </div>
+            </div>
+        </section>
     </main>
 
-    <!-- SHARE CARD MODAL -->
-    <div id="share-modal">
-        <div class="share-card-container">
-            <button class="close-modal-x" onclick="closeShareModal()">&times;</button>
-            <h3 style="color: var(--neon-cyan); margin-bottom: 5px;"><i class="fa-solid fa-share-nodes"></i> Vote Recorded!</h3>
-            <p style="font-size: 0.85rem; color: var(--text-muted);">Show your support by sharing your ballot card!</p>
-            
-            <div class="share-preview-box">
-                <h4>The Keyframe Awards 2026</h4>
-                <p id="share-text-nominee">I voted for [Nominee]</p>
-                <span id="share-text-category">in [Category]</span>
-            </div>
-
-            <div class="modal-btn-row">
-                <button class="modal-action-btn btn-twitter" onclick="shareToTwitter()"><i class="fa-brands fa-x-twitter"></i> Twitter</button>
-                <button class="modal-action-btn btn-whatsapp" onclick="shareToWhatsApp()"><i class="fa-brands fa-whatsapp"></i> WhatsApp</button>
-            </div>
-            <button class="modal-action-btn btn-copy" style="width: 100%; margin-top: 10px;" onclick="copyShareLink()"><i class="fa-regular fa-copy"></i> Copy Share Link</button>
-        </div>
-    </div>
-
-    <!-- FOOTER -->
-    <footer class="vote-footer">
-        <p>&copy; 2026 The Keyframe Awards. All rights reserved.</p>
-    </footer>
-
-    <!-- TOAST NOTIFICATION -->
-    <div id="custom-toast"><span id="toast-message">Notification</span></div>
-
-    <!-- FIREBASE INITIALIZATION & SECURE VOTE TRACKING -->
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
-
-        const firebaseConfig = {
-            apiKey: "AIzaSyB6PoUXyNIyWUfLcaoGQnUONz_21Tc_Gwg",
-            authDomain: "keyframe-awards.firebaseapp.com",
-            projectId: "keyframe-awards",
-            storageBucket: "keyframe-awards.firebasestorage.app",
-            messagingSenderId: "882083630221",
-            appId: "1:882083630221:web:629df7642fdf822018a6c4",
-            measurementId: "G-Z8HX6L8WEG"
-        };
-
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
-
-        // Generate or fetch a persistent browser device fingerprint ID
-        let voterId = localStorage.getItem('kf_voter_id');
-        if (!voterId) {
-            voterId = 'voter_' + Math.random().toString(36).substring(2) + Date.now().toString(36);
-            localStorage.setItem('kf_voter_id', voterId);
+    <script>
+        function castVote(category, nominee) {
+            alert(`Successfully voted for ${nominee} in ${category}!`);
         }
-
-        let lastVotedNominee = "";
-        let lastVotedCategory = "";
-
-        function showToast(text) {
-            const toast = document.getElementById('custom-toast');
-            const toastMsg = document.getElementById('toast-message');
-            toastMsg.innerText = text;
-            toast.classList.add('show');
-            setTimeout(() => toast.classList.remove('show'), 3500);
-        }
-
-        // Global voting function with Firebase daily enforcement
-        window.castVote = async function(category, nomineeName) {
-            const todayStr = new Date().toISOString().split('T')[0]; // e.g., "2026-10-08"
-            const voteDocId = `${voterId}_${category.replace(/\s+/g, '_')}_${todayStr}`;
-            const safeId = nomineeName.replace(/\s+/g, '-');
-            const btn = document.getElementById(`btn-${safeId}`);
-
-            try {
-                showToast("Processing vote...");
-                const voteRef = doc(db, "daily_votes", voteDocId);
-                const voteSnap = await getDoc(voteRef);
-
-                if (voteSnap.exists()) {
-                    showToast("⚠️ You have already voted in this category today!");
-                    if(btn) {
-                        btn.innerText = "Voted Today ✓";
-                        btn.classList.add("voted");
-                    }
-                    return;
-                }
-
-                // Record the vote securely in Firestore
-                await setDoc(voteRef, {
-                    voterId: voterId,
-                    category: category,
-                    nominee: nomineeName,
-                    timestamp: new Date().toISOString()
-                });
-
-                // Save details for sharing card
-                lastVotedNominee = nomineeName;
-                lastVotedCategory = category;
-
-                // Update UI button state
-                if(btn) {
-                    btn.innerText = "Voted ✓";
-                    btn.classList.add("voted");
-                }
-
-                // Populate Share Modal and open it
-                document.getElementById('share-text-nominee').innerText = `I voted for ${nomineeName}`;
-                document.getElementById('share-text-category').innerText = `in ${category}`;
-                document.getElementById('share-modal').classList.add('active');
-
-            } catch (error) {
-                console.error("Error recording vote: ", error);
-                showToast("Connection error. Please check your network.");
-            }
-        };
-
-        window.closeShareModal = function() {
-            document.getElementById('share-modal').classList.remove('active');
-        };
-
-        window.shareToTwitter = function() {
-            const text = encodeURIComponent(`I just voted for ${lastVotedNominee} in ${lastVotedCategory} at The Keyframe Awards! Cast your votes here:`);
-            const url = `https://twitter.com/intent/tweet?text=${text}&url=${encodeURIComponent(window.location.href)}`;
-            window.open(url, '_blank');
-        };
-
-        window.shareToWhatsApp = function() {
-            const text = encodeURIComponent(`I just voted for ${lastVotedNominee} in ${lastVotedCategory} at The Keyframe Awards! Check it out at: ${window.location.href}`);
-            window.open(`https://api.whatsapp.com/send?text=${text}`, '_blank');
-        };
-
-        window.copyShareLink = function() {
-            const shareString = `I just voted for ${lastVotedNominee} in ${lastVotedCategory} at The Keyframe Awards! Vote here: ${window.location.href}`;
-            navigator.clipboard.writeText(shareString).then(() => {
-                showToast("Share text copied to clipboard!");
-                closeShareModal();
-            });
-        };
     </script>
 </body>
 </html>
