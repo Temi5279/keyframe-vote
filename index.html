@@ -67,13 +67,7 @@
             letter-spacing: 3px;
         }
 
-        .nav-controls {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .back-btn, .auth-btn {
+        .back-btn {
             background: transparent;
             border: 1px solid var(--neon-cyan);
             color: var(--neon-cyan);
@@ -86,7 +80,7 @@
             transition: all 0.3s ease;
         }
 
-        .back-btn:hover, .auth-btn:hover {
+        .back-btn:hover {
             background: var(--neon-cyan);
             color: var(--deep-bg);
             box-shadow: 0 0 15px rgba(0, 240, 255, 0.4);
@@ -191,7 +185,6 @@
             border-color: var(--neon-cyan);
         }
 
-        /* BIGGER AVATAR STYLING */
         .nominee-avatar {
             width: 110px;
             height: 110px;
@@ -234,11 +227,118 @@
             color: var(--deep-bg);
         }
 
-        .vote-action-btn:disabled {
-            border-color: #444;
-            color: #666;
-            background: rgba(255, 255, 255, 0.02);
+        .vote-action-btn.voted {
+            background: var(--neon-purple);
+            border-color: var(--neon-purple);
+            color: white;
             cursor: not-allowed;
+        }
+
+        /* SHARE CARD MODAL OVERLAY */
+        #share-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(13, 2, 33, 0.85);
+            backdrop-filter: blur(8px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        #share-modal.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .share-card-container {
+            background: linear-gradient(135deg, #1a0033, #0d0221);
+            border: 2px solid var(--neon-cyan);
+            box-shadow: 0 0 30px rgba(0, 240, 255, 0.4);
+            border-radius: 20px;
+            padding: 30px;
+            width: 90%;
+            max-width: 420px;
+            text-align: center;
+            position: relative;
+        }
+
+        .share-preview-box {
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px dashed var(--neon-pink);
+            border-radius: 12px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .share-preview-box h4 {
+            color: var(--neon-cyan);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 8px;
+        }
+
+        .share-preview-box p {
+            font-size: 1.15rem;
+            font-weight: bold;
+            color: var(--text-white);
+            margin-bottom: 5px;
+        }
+
+        .share-preview-box span {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .modal-btn-row {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .modal-action-btn {
+            flex: 1;
+            padding: 10px;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 0.85rem;
+            cursor: pointer;
+            border: none;
+            transition: all 0.2s;
+        }
+
+        .btn-twitter {
+            background: #1da1f2;
+            color: white;
+        }
+
+        .btn-whatsapp {
+            background: #25d366;
+            color: white;
+        }
+
+        .btn-copy {
+            background: transparent;
+            border: 1px solid var(--text-white);
+            color: white;
+        }
+
+        .close-modal-x {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-size: 1.2rem;
+            cursor: pointer;
         }
 
         /* Toast Notification */
@@ -255,7 +355,7 @@
             border-radius: 50px;
             font-weight: bold;
             font-size: 0.9rem;
-            z-index: 9999;
+            z-index: 10000;
             transition: bottom 0.4s ease;
         }
         #custom-toast.show {
@@ -271,21 +371,6 @@
             font-size: 0.8rem;
             background: rgba(13, 2, 33, 0.9);
         }
-
-        @media (max-width: 600px) {
-            .vote-hero h1 {
-                font-size: 1.8rem;
-            }
-            .nominees-grid {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 12px;
-            }
-            .nominee-avatar {
-                width: 85px;
-                height: 85px;
-                font-size: 1.5rem;
-            }
-        }
     </style>
 </head>
 <body>
@@ -297,9 +382,6 @@
         </a>
         <div class="nav-controls">
             <a href="https://keyframe-awards.com" class="back-btn"><i class="fa-solid fa-arrow-left"></i> Main Site</a>
-            <div id="auth-action-container">
-                <button class="auth-btn" id="portal-auth-btn" onclick="window.location.href='https://keyframe-awards.com/?action=login'">Sign In</button>
-            </div>
         </div>
     </header>
 
@@ -307,7 +389,7 @@
     <section class="vote-hero">
         <div class="vote-badge">Official 2026 Ballot</div>
         <h1>Cast Your Votes</h1>
-        <p>Support your favorite creators, artists, editors, and memes across all categories. You have a limit of <strong>10 votes daily</strong> per category.</p>
+        <p>Support your favorite creators. Limit of 1 vote per category daily. Share your custom card after voting!</p>
     </section>
 
     <!-- VOTING CONTAINER -->
@@ -317,23 +399,44 @@
         <div class="category-section">
             <div class="category-header">
                 <h3 class="category-title">Overall Creator of the Year</h3>
-                <span class="vote-counter-badge">Votes left today: <span id="counter-1">10</span></span>
+                <span class="vote-counter-badge">1 Vote Daily</span>
             </div>
             <div class="nominees-grid">
-                <div class="nominee-card">
+                <div class="nominee-card" id="card-Kai-Cenat">
                     <div class="nominee-avatar">KC</div>
                     <div class="nominee-name">Kai Cenat</div>
-                    <button class="vote-action-btn" onclick="castVote('Overall Creator', 'Kai Cenat')">Vote</button>
+                    <button class="vote-action-btn" id="btn-Kai-Cenat" onclick="castVote('Overall Creator of the Year', 'Kai Cenat')">Vote</button>
                 </div>
-                <div class="nominee-card">
+                <div class="nominee-card" id="card-IShowSpeed">
                     <div class="nominee-avatar">IS</div>
                     <div class="nominee-name">IShowSpeed</div>
-                    <button class="vote-action-btn" onclick="castVote('Overall Creator', 'IShowSpeed')">Vote</button>
+                    <button class="vote-action-btn" id="btn-IShowSpeed" onclick="castVote('Overall Creator of the Year', 'IShowSpeed')">Vote</button>
                 </div>
             </div>
         </div>
 
     </main>
+
+    <!-- SHARE CARD MODAL -->
+    <div id="share-modal">
+        <div class="share-card-container">
+            <button class="close-modal-x" onclick="closeShareModal()">&times;</button>
+            <h3 style="color: var(--neon-cyan); margin-bottom: 5px;"><i class="fa-solid fa-share-nodes"></i> Vote Recorded!</h3>
+            <p style="font-size: 0.85rem; color: var(--text-muted);">Show your support by sharing your ballot card!</p>
+            
+            <div class="share-preview-box">
+                <h4>The Keyframe Awards 2026</h4>
+                <p id="share-text-nominee">I voted for [Nominee]</p>
+                <span id="share-text-category">in [Category]</span>
+            </div>
+
+            <div class="modal-btn-row">
+                <button class="modal-action-btn btn-twitter" onclick="shareToTwitter()"><i class="fa-brands fa-x-twitter"></i> Twitter</button>
+                <button class="modal-action-btn btn-whatsapp" onclick="shareToWhatsApp()"><i class="fa-brands fa-whatsapp"></i> WhatsApp</button>
+            </div>
+            <button class="modal-action-btn btn-copy" style="width: 100%; margin-top: 10px;" onclick="copyShareLink()"><i class="fa-regular fa-copy"></i> Copy Share Link</button>
+        </div>
+    </div>
 
     <!-- FOOTER -->
     <footer class="vote-footer">
@@ -343,13 +446,11 @@
     <!-- TOAST NOTIFICATION -->
     <div id="custom-toast"><span id="toast-message">Notification</span></div>
 
-    <!-- FIREBASE INITIALIZATION & SHARED AUTH SESSION -->
+    <!-- FIREBASE INITIALIZATION & SECURE VOTE TRACKING -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-        import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+        import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-        // Your active Firebase Configuration from main site
         const firebaseConfig = {
             apiKey: "AIzaSyB6PoUXyNIyWUfLcaoGQnUONz_21Tc_Gwg",
             authDomain: "keyframe-awards.firebaseapp.com",
@@ -361,10 +462,17 @@
         };
 
         const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
         const db = getFirestore(app);
 
-        window.currentUser = null;
+        // Generate or fetch a persistent browser device fingerprint ID
+        let voterId = localStorage.getItem('kf_voter_id');
+        if (!voterId) {
+            voterId = 'voter_' + Math.random().toString(36).substring(2) + Date.now().toString(36);
+            localStorage.setItem('kf_voter_id', voterId);
+        }
+
+        let lastVotedNominee = "";
+        let lastVotedCategory = "";
 
         function showToast(text) {
             const toast = document.getElementById('custom-toast');
@@ -374,52 +482,77 @@
             setTimeout(() => toast.classList.remove('show'), 3500);
         }
 
-        // Check if user is already logged in across the shared Firebase project
-        onAuthStateChanged(auth, async (user) => {
-            const authContainer = document.getElementById('auth-action-container');
-            if (user) {
-                window.currentUser = user;
-                let printName = user.displayName ? user.displayName.split(' ')[0] : "Creator";
-                
-                try {
-                    const docSnap = await getDoc(doc(db, "users", user.uid));
-                    if (docSnap.exists() && docSnap.data().fullName) {
-                        printName = docSnap.data().fullName.split(' ')[0];
+        // Global voting function with Firebase daily enforcement
+        window.castVote = async function(category, nomineeName) {
+            const todayStr = new Date().toISOString().split('T')[0]; // e.g., "2026-10-08"
+            const voteDocId = `${voterId}_${category.replace(/\s+/g, '_')}_${todayStr}`;
+            const safeId = nomineeName.replace(/\s+/g, '-');
+            const btn = document.getElementById(`btn-${safeId}`);
+
+            try {
+                showToast("Processing vote...");
+                const voteRef = doc(db, "daily_votes", voteDocId);
+                const voteSnap = await getDoc(voteRef);
+
+                if (voteSnap.exists()) {
+                    showToast("⚠️ You have already voted in this category today!");
+                    if(btn) {
+                        btn.innerText = "Voted Today ✓";
+                        btn.classList.add("voted");
                     }
-                } catch (err) {
-                    console.log("Session verified silently.");
+                    return;
                 }
 
-                authContainer.innerHTML = `
-                    <span style="color: var(--neon-cyan); font-weight: bold; font-size: 0.85rem; margin-right: 10px;">Hi, ${printName}</span>
-                    <button class="auth-btn" id="vote-logout-btn" style="border-color: var(--neon-pink); color: var(--neon-pink);">Log Out</button>
-                `;
-
-                document.getElementById('vote-logout-btn').addEventListener('click', () => {
-                    signOut(auth).then(() => {
-                        showToast("Logged out successfully");
-                        window.location.reload();
-                    });
+                // Record the vote securely in Firestore
+                await setDoc(voteRef, {
+                    voterId: voterId,
+                    category: category,
+                    nominee: nomineeName,
+                    timestamp: new Date().toISOString()
                 });
-            } else {
-                window.currentUser = null;
-                authContainer.innerHTML = `
-                    <button class="auth-btn" onclick="window.location.href='https://keyframe-awards.com/?action=login'">Sign In</button>
-                `;
-            }
-        });
 
-        // Global voting handler function
-        window.castVote = function(category, nomineeName) {
-            if (!window.currentUser) {
-                showToast("Please sign in on the main site first to vote!");
-                setTimeout(() => {
-                    window.location.href = "https://keyframe-awards.com/?action=login";
-                }, 1500);
-                return;
+                // Save details for sharing card
+                lastVotedNominee = nomineeName;
+                lastVotedCategory = category;
+
+                // Update UI button state
+                if(btn) {
+                    btn.innerText = "Voted ✓";
+                    btn.classList.add("voted");
+                }
+
+                // Populate Share Modal and open it
+                document.getElementById('share-text-nominee').innerText = `I voted for ${nomineeName}`;
+                document.getElementById('share-text-category').innerText = `in ${category}`;
+                document.getElementById('share-modal').classList.add('active');
+
+            } catch (error) {
+                console.error("Error recording vote: ", error);
+                showToast("Connection error. Please check your network.");
             }
-            
-            showToast(`Vote recorded for ${nomineeName}!`);
+        };
+
+        window.closeShareModal = function() {
+            document.getElementById('share-modal').classList.remove('active');
+        };
+
+        window.shareToTwitter = function() {
+            const text = encodeURIComponent(`I just voted for ${lastVotedNominee} in ${lastVotedCategory} at The Keyframe Awards! Cast your votes here:`);
+            const url = `https://twitter.com/intent/tweet?text=${text}&url=${encodeURIComponent(window.location.href)}`;
+            window.open(url, '_blank');
+        };
+
+        window.shareToWhatsApp = function() {
+            const text = encodeURIComponent(`I just voted for ${lastVotedNominee} in ${lastVotedCategory} at The Keyframe Awards! Check it out at: ${window.location.href}`);
+            window.open(`https://api.whatsapp.com/send?text=${text}`, '_blank');
+        };
+
+        window.copyShareLink = function() {
+            const shareString = `I just voted for ${lastVotedNominee} in ${lastVotedCategory} at The Keyframe Awards! Vote here: ${window.location.href}`;
+            navigator.clipboard.writeText(shareString).then(() => {
+                showToast("Share text copied to clipboard!");
+                closeShareModal();
+            });
         };
     </script>
 </body>
