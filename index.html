@@ -3,9 +3,290 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Official Voting Portal | The Keyframe Awards</title>
+    <title>The Keyframe Awards - Voting Portal</title>
+    <link rel="icon" type="image/png" href="favicon.png">
+
+    <!-- Font Awesome for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-    <link rel="stylesheet" href="style.css">
+    
+    <style>
+        :root {
+            --deep-bg: #0d0221;
+            --card-bg: rgba(26, 0, 51, 0.7);
+            --neon-purple: #9d4edd;
+            --neon-cyan: #00f0ff;
+            --neon-pink: #ff007f;
+            --text-white: #ffffff;
+            --text-muted: #a0a0a0;
+            --border-purple: rgba(157, 78, 221, 0.3);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--deep-bg);
+            color: var(--text-white);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Header */
+        .vote-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 5%;
+            background: rgba(13, 2, 33, 0.95);
+            border-bottom: 1px solid var(--border-purple);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+        }
+
+        .brand-logo {
+            color: var(--text-white);
+            text-decoration: none;
+            font-size: 1.3rem;
+            font-weight: bold;
+            letter-spacing: 1px;
+            cursor: pointer;
+        }
+
+        .brand-logo span {
+            color: var(--neon-cyan);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            display: block;
+            letter-spacing: 3px;
+        }
+
+        .nav-controls {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .back-btn, .auth-btn {
+            background: transparent;
+            border: 1px solid var(--neon-cyan);
+            color: var(--neon-cyan);
+            padding: 8px 16px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .back-btn:hover, .auth-btn:hover {
+            background: var(--neon-cyan);
+            color: var(--deep-bg);
+            box-shadow: 0 0 15px rgba(0, 240, 255, 0.4);
+        }
+
+        /* Hero Section */
+        .vote-hero {
+            text-align: center;
+            padding: 40px 20px 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .vote-badge {
+            background: rgba(0, 240, 255, 0.1);
+            color: var(--neon-cyan);
+            border: 1px solid rgba(0, 240, 255, 0.3);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: bold;
+        }
+
+        .vote-hero h1 {
+            font-size: 2.3rem;
+            margin: 15px 0 10px;
+            text-shadow: 0 0 15px var(--neon-purple);
+        }
+
+        .vote-hero p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        /* Main Container */
+        .vote-container {
+            max-width: 1000px;
+            width: 90%;
+            margin: 0 auto 60px;
+            flex: 1;
+        }
+
+        /* Category Sections */
+        .category-section {
+            background: var(--card-bg);
+            border: 1px solid var(--border-purple);
+            border-radius: 16px;
+            padding: 30px;
+            margin-bottom: 30px;
+            backdrop-filter: blur(10px);
+        }
+
+        .category-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            padding-bottom: 12px;
+        }
+
+        .category-title {
+            font-size: 1.25rem;
+            color: var(--text-white);
+        }
+
+        .vote-counter-badge {
+            background: rgba(157, 78, 221, 0.2);
+            color: var(--neon-purple);
+            border: 1px solid rgba(157, 78, 221, 0.4);
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: bold;
+        }
+
+        /* Nominees Grid */
+        .nominees-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+        }
+
+        .nominee-card {
+            background: rgba(13, 2, 33, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            transition: transform 0.2s ease, border-color 0.2s ease;
+        }
+
+        .nominee-card:hover {
+            transform: translateY(-3px);
+            border-color: var(--neon-cyan);
+        }
+
+        /* BIGGER AVATAR STYLING */
+        .nominee-avatar {
+            width: 110px;
+            height: 110px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--neon-purple), var(--neon-cyan));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 2rem;
+            color: var(--text-white);
+            margin-bottom: 15px;
+            box-shadow: 0 0 20px rgba(0, 240, 255, 0.3);
+            text-transform: uppercase;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .nominee-name {
+            font-size: 1.05rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            color: var(--text-white);
+        }
+
+        .vote-action-btn {
+            width: 100%;
+            background: rgba(0, 240, 255, 0.1);
+            color: var(--neon-cyan);
+            border: 1px solid var(--neon-cyan);
+            padding: 10px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .vote-action-btn:hover:not(:disabled) {
+            background: var(--neon-cyan);
+            color: var(--deep-bg);
+        }
+
+        .vote-action-btn:disabled {
+            border-color: #444;
+            color: #666;
+            background: rgba(255, 255, 255, 0.02);
+            cursor: not-allowed;
+        }
+
+        /* Toast Notification */
+        #custom-toast {
+            position: fixed;
+            bottom: -100px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(26, 0, 51, 0.95);
+            border: 2px solid #ff007f;
+            box-shadow: 0 0 20px rgba(255, 0, 127, 0.6);
+            color: #fff;
+            padding: 14px 28px;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 0.9rem;
+            z-index: 9999;
+            transition: bottom 0.4s ease;
+        }
+        #custom-toast.show {
+            bottom: 30px;
+        }
+
+        /* Footer */
+        .vote-footer {
+            text-align: center;
+            padding: 20px;
+            border-top: 1px solid var(--border-purple);
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            background: rgba(13, 2, 33, 0.9);
+        }
+
+        @media (max-width: 600px) {
+            .vote-hero h1 {
+                font-size: 1.8rem;
+            }
+            .nominees-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 12px;
+            }
+            .nominee-avatar {
+                width: 85px;
+                height: 85px;
+                font-size: 1.5rem;
+            }
+        }
+    </style>
 </head>
 <body>
 
@@ -15,314 +296,131 @@
             Keyframe Awards <span>Voting Portal</span>
         </a>
         <div class="nav-controls">
-            <a href="https://keyframe-awards.com" class="back-btn"><i class="fas fa-arrow-left"></i> Main Site</a>
-            <button id="authToggleBtn" class="auth-btn" onclick="handleAuthAction()">Sign In</button>
+            <a href="https://keyframe-awards.com" class="back-btn"><i class="fa-solid fa-arrow-left"></i> Main Site</a>
+            <div id="auth-action-container">
+                <button class="auth-btn" id="portal-auth-btn" onclick="window.location.href='https://keyframe-awards.com/?action=login'">Sign In</button>
+            </div>
         </div>
     </header>
 
     <!-- HERO -->
-    <main class="vote-hero">
-        <span class="vote-badge">Official 2026 Ballot</span>
+    <section class="vote-hero">
+        <div class="vote-badge">Official 2026 Ballot</div>
         <h1>Cast Your Votes</h1>
-        <p>Support your favorite creators, artists, editors, and memes across all categories. You have a limit of <strong>10 votes daily per category</strong>.</p>
-    </main>
+        <p>Support your favorite creators, artists, editors, and memes across all categories. You have a limit of <strong>10 votes daily</strong> per category.</p>
+    </section>
 
-    <!-- CATEGORIES & NOMINEES CONTAINER -->
-    <div class="vote-container" id="categoriesContainer">
-        <!-- Dynamically rendered categories and nominees will go here -->
-    </div>
+    <!-- VOTING CONTAINER -->
+    <main class="vote-container">
+        
+        <!-- Category 1 -->
+        <div class="category-section">
+            <div class="category-header">
+                <h3 class="category-title">Overall Creator of the Year</h3>
+                <span class="vote-counter-badge">Votes left today: <span id="counter-1">10</span></span>
+            </div>
+            <div class="nominees-grid">
+                <div class="nominee-card">
+                    <div class="nominee-avatar">KC</div>
+                    <div class="nominee-name">Kai Cenat</div>
+                    <button class="vote-action-btn" onclick="castVote('Overall Creator', 'Kai Cenat')">Vote</button>
+                </div>
+                <div class="nominee-card">
+                    <div class="nominee-avatar">IS</div>
+                    <div class="nominee-name">IShowSpeed</div>
+                    <button class="vote-action-btn" onclick="castVote('Overall Creator', 'IShowSpeed')">Vote</button>
+                </div>
+            </div>
+        </div>
+
+    </main>
 
     <!-- FOOTER -->
     <footer class="vote-footer">
-        <p>© 2026 The Keyframe Awards. All rights reserved. Voting closes December 20, 2026.</p>
+        <p>&copy; 2026 The Keyframe Awards. All rights reserved.</p>
     </footer>
 
-    <!-- Firebase SDK Scripts (Make sure your firebase config matches your main app) -->
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-        import { getFirestore, doc, getDoc, setDoc, updateDoc, increment } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+    <!-- TOAST NOTIFICATION -->
+    <div id="custom-toast"><span id="toast-message">Notification</span></div>
 
-        // Your Firebase configuration (Use the same config from your main keyframe app)
+    <!-- FIREBASE INITIALIZATION & SHARED AUTH SESSION -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+        // Your active Firebase Configuration from main site
         const firebaseConfig = {
-            apiKey: "YOUR_FIREBASE_API_KEY",
-            authDomain: "YOUR_FIREBASE_AUTH_DOMAIN",
-            projectId: "YOUR_FIREBASE_PROJECT_ID",
-            storageBucket: "YOUR_FIREBASE_STORAGE_BUCKET",
-            messagingSenderId: "YOUR_FIREBASE_MESSAGING_SENDER_ID",
-            appId: "YOUR_FIREBASE_APP_ID"
+            apiKey: "AIzaSyB6PoUXyNIyWUfLcaoGQnUONz_21Tc_Gwg",
+            authDomain: "keyframe-awards.firebaseapp.com",
+            projectId: "keyframe-awards",
+            storageBucket: "keyframe-awards.firebasestorage.app",
+            messagingSenderId: "882083630221",
+            appId: "1:882083630221:web:629df7642fdf822018a6c4",
+            measurementId: "G-Z8HX6L8WEG"
         };
 
         const app = initializeApp(firebaseConfig);
         const auth = getAuth(app);
         const db = getFirestore(app);
-        const provider = new GoogleAuthProvider();
 
-        // Complete Structured Categories & Nominees Data
-        const votingData = [
-            {
-                categoryKey: "overall_creator",
-                categoryName: "Overall Creator of the Year",
-                nominees: ["Kai Cenat", "IShowSpeed", "MrBeast", "xQc", "CaseOh", "Ibai"]
-            },
-            {
-                categoryKey: "rising_star",
-                categoryName: "Rising Star of the Year",
-                nominees: ["Lamine Yamal", "ILLIT", "Jynxzi", "Ironmouse", "KATSEYE", "Caedrel"]
-            },
-            {
-                categoryKey: "viral_phenomenon",
-                categoryName: "Viral Phenomenon of the Year",
-                nominees: ["6-7 Meme", "Saxophone sound", "Labubu", "100 Men vs 1 Gorilla"]
-            },
-            {
-                categoryKey: "meme_lord_lady",
-                categoryName: "Meme Lord/Lady of the Year",
-                nominees: ["IShowSpeed", "Kai Cenat", "CaseOh", "xQc"]
-            },
-            {
-                categoryKey: "best_kpop_group",
-                categoryName: "Best K-pop Group",
-                nominees: ["BTS", "BLACKPINK", "Stray Kids", "SEVENTEEN", "aespa", "ILLIT"]
-            },
-            {
-                categoryKey: "best_artist",
-                categoryName: "Best Artist",
-                nominees: ["Taylor Swift", "Lisa", "Sabrina Carpenter", "Bruno Mars", "Adela", "Zara Larsson"]
-            },
-            {
-                categoryKey: "best_music_edit",
-                categoryName: "Best Music Edit / MV Recreation",
-                nominees: ["AnimeVibe", "StarLab", "Trash", "Vexed", "Kuro", "Zero"]
-            },
-            {
-                categoryKey: "hyped_music_video_edit",
-                categoryName: "Most Hyped Music Video Edit",
-                nominees: ["Cyberpunk Edgerunners AMVs", "Travis Scott UTOPIA remixes", "TikTok cinematic syncs"]
-            },
-            {
-                categoryKey: "meme_of_the_year",
-                categoryName: "Meme of the Year",
-                nominees: ["6-7", "Labubu", "100 Men vs 1 Gorilla", "Jet2 Holiday"]
-            },
-            {
-                categoryKey: "best_meme_edit",
-                categoryName: "Best Meme Edit / Sound",
-                nominees: ["McFly", "Brainrot phonk remixes", "Sound effect overlays"]
-            },
-            {
-                categoryKey: "best_roast_meme",
-                categoryName: "Best Roast Meme",
-                nominees: ["Speed roasts", "Kai Cenat moments", "xQc moments", "CaseOh moments"]
-            },
-            {
-                categoryKey: "best_movie_edit",
-                categoryName: "Best Movie Edit / Recap",
-                nominees: ["ManOfRecaps", "ScreenCrush", "FilmJunkee", "Heavy Spoilers", "Valyan", "Reel Insight"]
-            },
-            {
-                categoryKey: "best_tv_show_edit",
-                categoryName: "Best TV Show Edit",
-                nominees: ["Succession character edits", "The Boys Homelander edits", "Arcane visual cuts", "House of the Dragon fan tributes"]
-            },
-            {
-                categoryKey: "series_theory",
-                categoryName: "Best Series Theory / Breakdown",
-                nominees: ["Alt Shift X", "Inside A Mind", "New Rockstars", "The Canadian Lad"]
-            },
-            {
-                categoryKey: "best_football_edit",
-                categoryName: "Best Football Edit",
-                nominees: ["433 community editors", "Commps", "Zvck", "CompsHD", "RMCF edits", "NXGN creators"]
-            },
-            {
-                categoryKey: "hyped_goal_montage",
-                categoryName: "Most Hyped Goal Montage",
-                nominees: ["Champions League comebacks", "Puskas Award finalists compilation", "World Cup iconic strikes"]
-            },
-            {
-                categoryKey: "match_highlight_creator",
-                categoryName: "Best Match Highlight Creator",
-                nominees: ["Analyst reels", "Dexerto sports clips", "CBS Sports Golazo community", "Fabrizio Romano reaction cuts"]
-            },
-            {
-                categoryKey: "best_gaming_edit",
-                categoryName: "Best Gaming Edit / Montage",
-                nominees: ["Anomaly", "Mictia", "TheRussianBadger", "Jynxzi clips"]
-            },
-            {
-                categoryKey: "best_streamer",
-                categoryName: "Best Streamer / Creator",
-                nominees: ["Kai Cenat", "xQc", "CaseOh", "Jynxzi", "Ironmouse", "IShowSpeed"]
-            },
-            {
-                categoryKey: "chaotic_stream_moment",
-                categoryName: "Most Chaotic Stream Moment",
-                nominees: ["CaseOh food chat meltdowns", "Kai Cenat celebrity lock-ins", "Jynxzi rage moment", "Twitch setup destruction clips"]
-            }
-        ];
+        window.currentUser = null;
 
-        let currentUser = null;
-        const LIMIT_PER_CATEGORY = 10;
-
-        // Helper to generate initials for avatar placeholder
-        function getInitials(name) {
-            return name.split(' ').map(n => n[0]).slice(0, 2).join('');
+        function showToast(text) {
+            const toast = document.getElementById('custom-toast');
+            const toastMsg = document.getElementById('toast-message');
+            toastMsg.innerText = text;
+            toast.classList.add('show');
+            setTimeout(() => toast.classList.remove('show'), 3500);
         }
 
-        // Render categories to the page
-        function renderPortal() {
-            const container = document.getElementById("categoriesContainer");
-            container.innerHTML = "";
+        // Check if user is already logged in across the shared Firebase project
+        onAuthStateChanged(auth, async (user) => {
+            const authContainer = document.getElementById('auth-action-container');
+            if (user) {
+                window.currentUser = user;
+                let printName = user.displayName ? user.displayName.split(' ')[0] : "Creator";
+                
+                try {
+                    const docSnap = await getDoc(doc(db, "users", user.uid));
+                    if (docSnap.exists() && docSnap.data().fullName) {
+                        printName = docSnap.data().fullName.split(' ')[0];
+                    }
+                } catch (err) {
+                    console.log("Session verified silently.");
+                }
 
-            votingData.forEach(cat => {
-                let sectionHTML = `
-                    <div class="category-section" id="cat-${cat.categoryKey}">
-                        <div class="category-header">
-                            <h2 class="category-title">${cat.categoryName}</h2>
-                            <span class="vote-counter-badge" id="counter-${cat.categoryKey}">Votes left today: 10</span>
-                        </div>
-                        <div class="nominees-grid">
+                authContainer.innerHTML = `
+                    <span style="color: var(--neon-cyan); font-weight: bold; font-size: 0.85rem; margin-right: 10px;">Hi, ${printName}</span>
+                    <button class="auth-btn" id="vote-logout-btn" style="border-color: var(--neon-pink); color: var(--neon-pink);">Log Out</button>
                 `;
 
-                cat.nominees.forEach(nominee => {
-                    const safeId = nominee.replace(/[^a-zA-Z0-9]/g, '_');
-                    sectionHTML += `
-                        <div class="nominee-card">
-                            <div>
-                                <div class="nominee-avatar">${getInitials(nominee)}</div>
-                                <h3 class="nominee-name">${nominee}</h3>
-                            </div>
-                            <button class="vote-action-btn" id="btn-${cat.categoryKey}-${safeId}" onclick="castVote('${cat.categoryKey}', '${nominee}')">Vote</button>
-                        </div>
-                    `;
+                document.getElementById('vote-logout-btn').addEventListener('click', () => {
+                    signOut(auth).then(() => {
+                        showToast("Logged out successfully");
+                        window.location.reload();
+                    });
                 });
-
-                sectionHTML += `</div></div>`;
-                container.innerHTML += sectionHTML;
-            });
-        }
-
-        // Auth state observer
-        onAuthStateChanged(auth, async (user) => {
-            currentUser = user;
-            const authBtn = document.getElementById("authToggleBtn");
-            if (user) {
-                authBtn.textContent = "Sign Out";
-                authBtn.classList.add("logged-in");
-                await loadUserVotesToday();
             } else {
-                authBtn.textContent = "Sign In";
-                authBtn.classList.remove("logged-in");
-                resetVoteUI();
+                window.currentUser = null;
+                authContainer.innerHTML = `
+                    <button class="auth-btn" onclick="window.location.href='https://keyframe-awards.com/?action=login'">Sign In</button>
+                `;
             }
         });
 
-        window.handleAuthAction = async function() {
-            if (!currentUser) {
-                try {
-                    await signInWithPopup(auth, provider);
-                } catch (error) {
-                    alert("Authentication failed: " + error.message);
-                }
-            } else {
-                await signOut(auth);
-            }
-        };
-
-        // Get today's date string key (YYYY-MM-DD)
-        function getTodayKey() {
-            return new Date().toISOString().split('T')[0];
-        }
-
-        // Load votes casted today by the user from Firestore
-        async function loadUserVotesToday() {
-            if (!currentUser) return;
-            const today = getTodayKey();
-            const userVoteRef = doc(db, "users_votes", `${currentUser.uid}_${today}`);
-            const docSnap = await getDoc(userVoteRef);
-            
-            let data = docSnap.exists() ? docSnap.data() : {};
-
-            votingData.forEach(cat => {
-                const castedCount = data[cat.categoryKey] || 0;
-                const remaining = LIMIT_PER_CATEGORY - castedCount;
-                const badge = document.getElementById(`counter-${cat.categoryKey}`);
-                if (badge) badge.textContent = `Votes left today: ${remaining}`;
-
-                if (remaining <= 0) {
-                    disableCategoryButtons(cat.categoryKey);
-                }
-            });
-        }
-
-        // Cast a vote function
-        window.castVote = async function(categoryKey, nomineeName) {
-            if (!currentUser) {
-                alert("Please sign in with Google to cast your votes.");
-                try {
-                    await signInWithPopup(auth, provider);
-                } catch (e) { return; }
+        // Global voting handler function
+        window.castVote = function(category, nomineeName) {
+            if (!window.currentUser) {
+                showToast("Please sign in on the main site first to vote!");
+                setTimeout(() => {
+                    window.location.href = "https://keyframe-awards.com/?action=login";
+                }, 1500);
                 return;
             }
-
-            const today = getTodayKey();
-            const userVoteRef = doc(db, "users_votes", `${currentUser.uid}_${today}`);
-            const docSnap = await getDoc(userVoteRef);
             
-            let data = docSnap.exists() ? docSnap.data() : {};
-            let currentCount = data[categoryKey] || 0;
-
-            if (currentCount >= LIMIT_PER_CATEGORY) {
-                alert("You have reached your daily vote limit of 10 for this category.");
-                disableCategoryButtons(categoryKey);
-                return;
-            }
-
-            // Update user daily tracker and increment global nominee vote counter in Firestore
-            try {
-                data[categoryKey] = currentCount + 1;
-                await setDoc(userVoteRef, data, { merge: true });
-
-                const globalNomineeRef = doc(db, "tallies", `${categoryKey}_${nomineeName.replace(/[^a-zA-Z0-9]/g, '_')}`);
-                await setDoc(globalNomineeRef, { votes: increment(1), nominee: nomineeName, category: categoryKey }, { merge: true });
-
-                await loadUserVotesToday();
-                alert(`Successfully voted for ${nomineeName}!`);
-            } catch (error) {
-                console.error("Error recording vote:", error);
-                alert("Could not complete vote. Please try again.");
-            }
+            showToast(`Vote recorded for ${nomineeName}!`);
         };
-
-        function disableCategoryButtons(categoryKey) {
-            const section = document.getElementById(`cat-${categoryKey}`);
-            if (section) {
-                const buttons = section.querySelectorAll('.vote-action-btn');
-                buttons.forEach(btn => {
-                    btn.disabled = true;
-                    btn.textContent = "Limit Reached";
-                });
-            }
-        }
-
-        function resetVoteUI() {
-            votingData.forEach(cat => {
-                const badge = document.getElementById(`counter-${cat.categoryKey}`);
-                if (badge) badge.textContent = `Votes left today: 10`;
-                const section = document.getElementById(`cat-${categoryKey}`);
-                if (section) {
-                    const buttons = section.querySelectorAll('.vote-action-btn');
-                    buttons.forEach(btn => {
-                        btn.disabled = false;
-                        btn.textContent = "Vote";
-                    });
-                }
-            });
-        }
-
-        // Initialize portal layout on page load
-        renderPortal();
     </script>
 </body>
 </html>
