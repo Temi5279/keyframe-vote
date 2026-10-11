@@ -1,255 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KeyFrame Awards - Voting Portal</title>
-    <style>
-        :root {
-            --bg-color: #0b0f19;
-            --card-bg: rgba(18, 24, 38, 0.7);
-            --accent-color: #00f0ff;
-            --text-main: #ffffff;
-            --text-muted: #94a3b8;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            margin: 0;
-            padding: 20px;
-        }
-
-        header {
-            text-align: center;
-            margin-bottom: 40px;
-        }
-
-        header h1 {
-            color: var(--accent-color);
-            font-size: 2.5rem;
-            margin-bottom: 5px;
-        }
-
-        .category-section {
-            margin-bottom: 40px;
-        }
-
-        .category-title {
-            font-size: 1.5rem;
-            color: var(--accent-color);
-            border-bottom: 2px solid rgba(0, 240, 255, 0.2);
-            padding-bottom: 10px;
-            margin-bottom: 20px;
-        }
-
-        .nominees-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 20px;
-        }
-
-        .nominee-card {
-            background: var(--card-bg);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 12px;
-            padding: 20px;
-            text-align: center;
-            backdrop-filter: blur(10px);
-            transition: transform 0.2s ease, border-color 0.2s ease;
-        }
-
-        .nominee-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--accent-color);
-        }
-
-        .nominee-photo, .nominee-avatar {
-            width: 90px;
-            height: 90px;
-            border-radius: 50%;
-            object-fit: cover;
-            margin: 0 auto 15px auto;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: white;
-            background: linear-gradient(135deg, #00f0ff, #7000ff);
-            box-shadow: 0 0 15px rgba(0, 240, 255, 0.2);
-            border: 2px solid rgba(255, 255, 255, 0.2);
-        }
-
-        .nominee-name {
-            font-size: 0.95rem;
-            font-weight: 600;
-            margin-bottom: 15px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .vote-action-btn {
-            background: transparent;
-            color: var(--accent-color);
-            border: 1px solid var(--accent-color);
-            padding: 8px 16px;
-            border-radius: 20px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: background 0.2s, color 0.2s;
-            width: 100%;
-        }
-
-        .vote-action-btn:hover {
-            background: var(--accent-color);
-            color: var(--bg-color);
-        }
-    </style>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#080611">
+<meta name="description" content="The KeyFrame Awards voting portal — your vote, your choice, your awards.">
+<title>KeyFrame Awards — Voting Portal</title><link rel="icon" href="favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+<style>
+:root{--bg:#080611;--panel:#171027;--pink:#ff168b;--cyan:#00eaff;--purple:#8b4dff;--text:#fbf9ff;--muted:#aaa2bb;--line:rgba(255,255,255,.1)}*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(ellipse at 15% 4%,rgba(111,40,198,.22),transparent 34rem),radial-gradient(ellipse at 90% 18%,rgba(255,22,139,.11),transparent 30rem),var(--bg);color:var(--text);font-family:Inter,"Segoe UI",Arial,sans-serif;min-height:100vh}a{color:inherit;text-decoration:none}.shell{width:min(1160px,calc(100% - 36px));margin:auto}.topbar{position:sticky;top:0;z-index:50;background:rgba(8,6,17,.88);border-bottom:1px solid var(--line);backdrop-filter:blur(18px)}.nav{min-height:76px;display:flex;align-items:center;justify-content:space-between;gap:20px}.brand{display:flex;align-items:center;gap:11px;font-weight:900;letter-spacing:-.5px}.brand-mark{width:39px;height:39px;display:grid;place-items:center;border-radius:12px;color:#080611;background:linear-gradient(135deg,var(--cyan),#8b4dff 54%,var(--pink));box-shadow:0 0 20px #8b4dff50}.brand small{display:block;margin-top:5px;font-size:9px;color:var(--muted);letter-spacing:2px;text-transform:uppercase}.nav-links{display:flex;align-items:center;gap:23px;color:#d6d0e2;font-size:12px;font-weight:700}.nav-links a:hover,.nav-links .active{color:var(--cyan)}.nav-actions{display:flex;gap:9px}.btn{display:inline-flex;align-items:center;justify-content:center;gap:9px;border:1px solid transparent;border-radius:999px;padding:12px 18px;font-weight:800;font-size:12px;cursor:pointer;transition:.2s}.btn:hover{transform:translateY(-2px)}.primary{color:#090611;background:linear-gradient(100deg,var(--cyan),#8f75ff 58%,var(--pink));box-shadow:0 8px 26px #8b4dff30}.ghost{color:var(--text);background:#ffffff08;border-color:#ffffff28}.ghost:hover{border-color:#00eaff88}.menu-btn{display:none;background:none;border:0;color:white;font-size:22px;padding:8px}.hero{position:relative;overflow:hidden;padding:76px 0 55px}.hero:before{content:"";position:absolute;width:380px;height:380px;top:30px;right:-180px;border:1px solid #00eaff2b;border-radius:50%;box-shadow:0 0 0 36px #00eaff08,0 0 0 76px #00eaff05;pointer-events:none}.hero-grid{position:relative;display:grid;grid-template-columns:1.2fr .8fr;align-items:center;gap:44px;z-index:1}.eyebrow{display:inline-flex;align-items:center;gap:9px;color:var(--cyan);text-transform:uppercase;letter-spacing:2px;font-size:10px;font-weight:900;padding:9px 13px;border:1px solid #00eaff40;background:#00eaff0e;border-radius:999px}.dot{width:7px;height:7px;border-radius:50%;background:var(--pink);box-shadow:0 0 12px var(--pink)}h1{font-size:clamp(42px,6vw,76px);line-height:.99;letter-spacing:-4px;margin:24px 0 20px}.gradient{background:linear-gradient(95deg,#fff 3%,var(--cyan) 36%,#a68aff 64%,#ff70b9 95%);-webkit-background-clip:text;background-clip:text;color:transparent}.hero-copy{color:#c0b8d0;line-height:1.8;font-size:15px;max-width:570px;margin:0 0 27px}.hero-buttons{display:flex;flex-wrap:wrap;gap:12px}.note{color:#8f879f;font-size:11px;margin-top:19px}.note i{color:var(--cyan);margin-right:7px}.feature{position:relative;padding:26px;min-height:350px;border-radius:28px;overflow:hidden;border:1px solid #ffffff22;background:linear-gradient(145deg,#2b184ef5,#0f0a1cf7 66%);box-shadow:0 0 28px #ff168b2e,0 0 28px #00eaff20,0 30px 80px #0005}.feature:before{content:"";position:absolute;width:250px;height:250px;border-radius:50%;top:-100px;right:-70px;background:radial-gradient(circle,#ff168b4d,#8b4dff14 55%,transparent 70%)}.feature-inner{position:relative;z-index:1}.feature-top{display:flex;justify-content:space-between;align-items:center;gap:12px}.label{color:#bcb3d0;font-size:10px;font-weight:900;letter-spacing:2px;text-transform:uppercase}.pill{color:var(--pink);background:#ff168b19;border:1px solid #ff168b50;border-radius:999px;padding:7px 10px;font-size:9px;font-weight:900;letter-spacing:1px}.trophy-stage{height:190px;display:grid;place-items:center;position:relative}.ring{position:absolute;width:180px;height:180px;border:1px solid #00eaff55;border-radius:50%;box-shadow:inset 0 0 35px #00eaff09,0 0 30px #00eaff12}.ring:before,.ring:after{content:"";position:absolute;inset:15px;border:1px dashed #ff168b59;border-radius:50%}.ring:after{inset:31px;border-style:solid;border-color:#8b4dff66}.trophy{font-size:74px;background:linear-gradient(145deg,#fff 8%,var(--cyan) 35%,#a87bff 62%,var(--pink));-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 0 24px #ff168b3d)}.feature h2{font-size:23px;letter-spacing:-.7px;margin:3px 0 8px}.feature p{font-size:12px;color:var(--muted);line-height:1.6;margin:0}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;padding:4px 0 36px}.stat{border:1px solid var(--line);background:#ffffff06;border-radius:17px;padding:20px;text-align:center}.stat strong{display:block;font-size:25px;letter-spacing:-1px;background:linear-gradient(90deg,var(--cyan),#b28aff,var(--pink));-webkit-background-clip:text;background-clip:text;color:transparent}.stat span{display:block;margin-top:7px;color:var(--muted);text-transform:uppercase;font-size:9px;letter-spacing:1.5px;font-weight:800}.section{padding:42px 0 70px}.heading{display:flex;align-items:end;justify-content:space-between;gap:24px;margin-bottom:25px}.kicker{color:var(--pink);text-transform:uppercase;letter-spacing:2px;font-size:10px;font-weight:900}h2{font-size:clamp(27px,4vw,38px);letter-spacing:-1.5px;margin:9px 0 0}.subtitle{color:var(--muted);line-height:1.7;font-size:13px;max-width:450px;margin:10px 0 0}.categories{display:grid;grid-template-columns:repeat(3,1fr);gap:15px}.cat{position:relative;min-height:158px;overflow:hidden;border:1px solid var(--line);border-radius:19px;padding:22px;background:linear-gradient(140deg,#201534e0,#0e0a19cc);transition:.2s}.cat:hover{transform:translateY(-4px);border-color:#00eaff66}.cat:after{content:"";position:absolute;width:120px;height:120px;border-radius:50%;right:-50px;bottom:-65px;background:var(--glow,#00eaff22)}.cat-icon{width:40px;height:40px;display:grid;place-items:center;border-radius:13px;background:#ffffff0e;border:1px solid #ffffff14;color:var(--accent,var(--cyan));font-size:16px;margin-bottom:18px}.cat h3{margin:0 0 7px;font-size:15px}.cat p{color:var(--muted);margin:0;font-size:11px;line-height:1.6;max-width:250px}.arrow{position:absolute;top:23px;right:22px;color:#81788f;font-size:12px}.how{display:grid;grid-template-columns:repeat(3,1fr);gap:15px}.how-card{border:1px solid var(--line);background:#ffffff06;border-radius:18px;padding:23px}.step{width:31px;height:31px;display:grid;place-items:center;border-radius:10px;background:linear-gradient(135deg,var(--cyan),var(--purple));color:#090611;font-weight:900;font-size:12px;margin-bottom:17px}.how-card h3{font-size:14px;margin:0 0 9px}.how-card p{color:var(--muted);font-size:12px;line-height:1.7;margin:0}.cta{display:flex;align-items:center;justify-content:space-between;gap:25px;padding:30px;border-radius:23px;border:1px solid #8b4dff55;background:linear-gradient(110deg,#8b4dff22,#ff168b14,#00eaff0f)}.cta h2{font-size:25px;margin:0 0 8px}.cta p{color:var(--muted);margin:0;font-size:12px;line-height:1.7}footer{border-top:1px solid var(--line);padding:27px 0 32px;color:#898198;font-size:11px}.footer-inner{display:flex;justify-content:space-between;align-items:center;gap:18px}.footer-links{display:flex;flex-wrap:wrap;gap:17px}.footer-links a:hover{color:var(--cyan)}.footer-brand{color:#d8d1e5;font-weight:800}
+@media(max-width:900px){.nav-links{gap:13px}.hero-grid{gap:25px}h1{letter-spacing:-2.8px}}@media(max-width:720px){.shell{width:min(100% - 28px,560px)}.nav{min-height:68px}.menu-btn{display:block}.nav-actions{margin-left:auto}.nav-actions .btn{padding:10px 12px;font-size:10px}.nav-links{display:none;position:absolute;top:68px;left:0;right:0;padding:17px 22px 22px;background:#080611fa;border-bottom:1px solid var(--line);flex-direction:column;align-items:stretch;gap:0}.nav-links.open{display:flex}.nav-links a{padding:14px 0;border-bottom:1px solid #ffffff0d}.hero{padding:50px 0 35px}.hero-grid{grid-template-columns:1fr;gap:28px}h1{font-size:clamp(42px,12vw,62px);letter-spacing:-2.5px;margin-top:19px}.hero-copy{font-size:13px}.feature{min-height:auto;padding:21px}.trophy-stage{height:165px}.ring{width:150px;height:150px}.trophy{font-size:62px}.stats{gap:8px;padding-bottom:20px}.stat{padding:15px 7px}.stat strong{font-size:21px}.stat span{font-size:8px;letter-spacing:.7px;line-height:1.5}.section{padding:32px 0 48px}.heading{display:block}.categories{grid-template-columns:repeat(2,1fr);gap:10px}.cat{min-height:155px;padding:16px}.cat h3{font-size:13px}.cat p{font-size:10px}.arrow{top:17px;right:16px}.how{grid-template-columns:1fr}.cta{display:block;padding:23px}.cta .btn{margin-top:20px;width:100%}.footer-inner{flex-direction:column;align-items:flex-start}}@media(max-width:380px){.brand{gap:8px}.brand-text{font-size:11px}.brand-mark{width:34px;height:34px}.nav-actions .ghost{display:none}.categories{grid-template-columns:1fr}.cat{min-height:130px}.hero-buttons .btn{width:100%}}@media(prefers-reduced-motion:reduce){*,*:before,*:after{scroll-behavior:auto!important;transition-duration:.01ms!important}}
+</style>
 </head>
 <body>
-
-    <header>
-        <h1>KeyFrame Awards</h1>
-        <p>Cast your votes for the biggest creators, shows, and moments!</p>
-    </header>
-
-    <main>
-        <!-- Overall Creator of the Year -->
-        <section class="category-section">
-            <h2 class="category-title">Overall Creator of the Year</h2>
-            <div class="nominees-grid">
-                <div class="nominee-card">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/e/e3/Kai_Cenat_2023_%28cropped%29.jpg" alt="Kai Cenat" class="nominee-photo">
-                    <div class="nominee-name">Kai Cenat</div>
-                    <button class="vote-action-btn" onclick="castVote('Overall Creator of the Year', 'Kai Cenat')">Vote</button>
-                </div>
-                <div class="nominee-card">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/3/32/IShowSpeed_November_2021_%2852502829419%29.jpg" alt="IShowSpeed" class="nominee-photo">
-                    <div class="nominee-name">IShowSpeed</div>
-                    <button class="vote-action-btn" onclick="castVote('Overall Creator of the Year', 'IShowSpeed')">Vote</button>
-                </div>
-                <div class="nominee-card">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/f/fc/MrBeast_in_2022.png" alt="MrBeast" class="nominee-photo">
-                    <div class="nominee-name">MrBeast</div>
-                    <button class="vote-action-btn" onclick="castVote('Overall Creator of the Year', 'MrBeast')">Vote</button>
-                </div>
-                <div class="nominee-card">
-                    <div class="nominee-avatar">xQ</div>
-                    <div class="nominee-name">xQc</div>
-                    <button class="vote-action-btn" onclick="castVote('Overall Creator of the Year', 'xQc')">Vote</button>
-                </div>
-                <div class="nominee-card">
-                    <div class="nominee-avatar">CS</div>
-                    <div class="nominee-name">CaseOh</div>
-                    <button class="vote-action-btn" onclick="castVote('Overall Creator of the Year', 'CaseOh')">Vote</button>
-                </div>
-                <div class="nominee-card">
-                    <div class="nominee-avatar">IB</div>
-                    <div class="nominee-name">Ibai</div>
-                    <button class="vote-action-btn" onclick="castVote('Overall Creator of the Year', 'Ibai')">Vote</button>
-                </div>
-            </div>
-        </section>
-
-        <!-- Rising Star of the Year -->
-        <section class="category-section">
-            <h2 class="category-title">Rising Star of the Year</h2>
-            <div class="nominees-grid">
-                <div class="nominee-card"><div class="nominee-avatar">LY</div><div class="nominee-name">Lamine Yamal</div><button class="vote-action-btn" onclick="castVote('Rising Star', 'Lamine Yamal')">Vote</button></div>
-                <div class="nominee-card"><div class="nominee-avatar">IL</div><div class="nominee-name">ILLIT</div><button class="vote-action-btn" onclick="castVote('Rising Star', 'ILLIT')">Vote</button></div>
-                <div class="nominee-card"><div class="nominee-avatar">JY</div><div class="nominee-name">Jynxzi</div><button class="vote-action-btn" onclick="castVote('Rising Star', 'Jynxzi')">Vote</button></div>
-                <div class="nominee-card"><div class="nominee-avatar">IM</div><div class="nominee-name">Ironmouse</div><button class="vote-action-btn" onclick="castVote('Rising Star', 'Ironmouse')">Vote</button></div>
-                <div class="nominee-card"><div class="nominee-avatar">KT</div><div class="nominee-name">KATSEYE</div><button class="vote-action-btn" onclick="castVote('Rising Star', 'KATSEYE')">Vote</button></div>
-                <div class="nominee-card"><div class="nominee-avatar">CD</div><div class="nominee-name">Caedrel</div><button class="vote-action-btn" onclick="castVote('Rising Star', 'Caedrel')">Vote</button></div>
-            </div>
-        </section>
-
-        <!-- Viral Phenomenon of the Year -->
-        <section class="category-section">
-            <h2 class="category-title">Viral Phenomenon of the Year</h2>
-            <div class="nominees-grid">
-                <div class="nominee-card"><div class="nominee-avatar">67</div><div class="nominee-name">6-7 Meme</div><button class="vote-action-btn" onclick="castVote('Viral Phenomenon', '6-7 Meme')">Vote</button></div>
-                <div class="nominee-card"><div class="nominee-avatar">SX</div><div class="nominee-name">Saxophone sound</div><button class="vote-action-btn" onclick="castVote('Viral Phenomenon', 'Saxophone sound')">Vote</button></div>
-                <div class="nominee-card"><div class="nominee-avatar">LB</div><div class="nominee-name">Labubu</div><button class="vote-action-btn" onclick="castVote('Viral Phenomenon', 'Labubu')">Vote</button></div>
-                <div class="nominee-card"><div class="nominee-avatar">1G</div><div class="nominee-name">100 Men vs 1 Gorilla</div><button class="vote-action-btn" onclick="castVote('Viral Phenomenon', '100 Men vs 1 Gorilla')">Vote</button></div>
-            </div>
-        </section>
-
-        <!-- Meme Lord/Lady of the Year -->
-        <section class="category-section">
-            <h2 class="category-title">Meme Lord/Lady of the Year</h2>
-            <div class="nominees-grid">
-                <div class="nominee-card">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/3/32/IShowSpeed_November_2021_%2852502829419%29.jpg" alt="IShowSpeed" class="nominee-photo">
-                    <div class="nominee-name">IShowSpeed</div>
-                    <button class="vote-action-btn" onclick="castVote('Meme Lord', 'IShowSpeed')">Vote</button>
-                </div>
-                <div class="nominee-card">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/e/e3/Kai_Cenat_2023_%28cropped%29.jpg" alt="Kai Cenat" class="nominee-photo">
-                    <div class="nominee-name">Kai Cenat</div>
-                    <button class="vote-action-btn" onclick="castVote('Meme Lord', 'Kai Cenat')">Vote</button>
-                </div>
-                <div class="nominee-card"><div class="nominee-avatar">CS</div><div class="nominee-name">CaseOh</div><button class="vote-action-btn" onclick="castVote('Meme Lord', 'CaseOh')">Vote</button></div>
-                <div class="nominee-card"><div class="nominee-avatar">xQ</div><div class="nominee-name">xQc</div><button class="vote-action-btn" onclick="castVote('Meme Lord', 'xQc')">Vote</button></div>
-            </div>
-        </section>
-
-        <!-- Best K-pop Group -->
-        <section class="category-section">
-            <h2 class="category-title">Best K-pop Group</h2>
-            <div class="nominees-grid">
-                <div class="nominee-card"><div class="nominee-avatar">BTS</div><div class="nominee-name">BTS</div><button class="vote-action-btn" onclick="castVote('Best K-pop Group', 'BTS')">Vote</button></div>
-                <div class="nominee-card"><div class="nominee-avatar">BP</div><div class="nominee-name">BLACKPINK</div><button class="vote-action-btn" onclick="castVote('Best K-pop Group', 'BLACKPINK')">Vote</button></div>
-                <div class="nominee-card"><div class="nominee-avatar">SK</div><div class="nominee-name">Stray Kids</div><button class="vote-action-btn" onclick="castVote('Best K-pop Group', 'Stray Kids')">Vote</button></div>
-                <div class="nominee-card"><div class="nominee-avatar">SV</div><div class="nominee-name">SEVENTEEN</div><button class="vote-action-btn" onclick="castVote('Best K-pop Group', 'SEVENTEEN')">Vote</button></div>
-                <div class="nominee-card"><div class="nominee-avatar">ae</div><div class="nominee-name">aespa</div><button class="vote-action-btn" onclick="castVote('Best K-pop Group', 'aespa')">Vote</button></div>
-                <div class="nominee-card"><div class="nominee-avatar">IL</div><div class="nominee-name">ILLIT</div><button class="vote-action-btn" onclick="castVote('Best K-pop Group', 'ILLIT')">Vote</button></div>
-            </div>
-        </section>
-
-        <!-- Best Artist -->
-        <section class="category-section">
-            <h2 class="category-title">Best Artist</h2>
-            <div class="nominees-grid">
-                <div class="nominee-card"><div class="nominee-avatar">TS</div><div class="nominee-name">Taylor Swift</div><button class="vote-action-btn" onclick="castVote('Best Artist', 'Taylor Swift')">Vote</button></div>
-                <div class="nominee-card"><div class="nominee-avatar">LS</div><div class="nominee-name">Lisa</div><button class="vote-action-btn" onclick="castVote('Best Artist', 'Lisa')">Vote</button></div>
-                <div class="nominee-card"><div class="nominee-avatar">SC</div><div class="nominee-name">Sabrina Carpenter</div><button class="vote-action-btn" onclick="castVote('Best Artist', 'Sabrina Carpenter')">Vote</button></div>
-                <div class="nominee-card"><div class="nominee-avatar">BM</div><div class="nominee-name">Bruno Mars</div><button class="vote-action-btn" onclick="castVote('Best Artist', 'Bruno Mars')">Vote</button></div>
-                <div class="nominee-card"><div class="nominee-avatar">AD</div><div class="nominee-name">Adela</div><button class="vote-action-btn" onclick="castVote('Best Artist', 'Adela')">Vote</button></div>
-                <div class="nominee-card"><div class="nominee-avatar">ZL</div><div class="nominee-name">Zara Larsson</div><button class="vote-action-btn" onclick="castVote('Best Artist', 'Zara Larsson')">Vote</button></div>
-            </div>
-        </section>
-
-        <!-- Best Streamer / Creator -->
-        <section class="category-section">
-            <h2 class="category-title">Best Streamer / Creator</h2>
-            <div class="nominees-grid">
-                <div class="nominee-card">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/e/e3/Kai_Cenat_2023_%28cropped%29.jpg" alt="Kai Cenat" class="nominee-photo">
-                    <div class="nominee-name">Kai Cenat</div>
-                    <button class="vote-action-btn" onclick="castVote('Best Streamer', 'Kai Cenat')">Vote</button>
-                </div>
-                <div class="nominee-card"><div class="nominee-avatar">xQ</div><div class="nominee-name">xQc</div><button class="vote-action-btn" onclick="castVote('Best Streamer', 'xQc')">Vote</button></div>
-                <div class="nominee-card"><div class="nominee-avatar">CS</div><div class="nominee-name">CaseOh</div><button class="vote-action-btn" onclick="castVote('Best Streamer', 'CaseOh')">Vote</button></div>
-                <div class="nominee-card"><div class="nominee-avatar">JY</div><div class="nominee-name">Jynxzi</div><button class="vote-action-btn" onclick="castVote('Best Streamer', 'Jynxzi')">Vote</button></div>
-                <div class="nominee-card"><div class="nominee-avatar">IM</div><div class="nominee-name">Ironmouse</div><button class="vote-action-btn" onclick="castVote('Best Streamer', 'Ironmouse')">Vote</button></div>
-                <div class="nominee-card">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/3/32/IShowSpeed_November_2021_%2852502829419%29.jpg" alt="IShowSpeed" class="nominee-photo">
-                    <div class="nominee-name">IShowSpeed</div>
-                    <button class="vote-action-btn" onclick="castVote('Best Streamer', 'IShowSpeed')">Vote</button>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <script>
-        function castVote(category, nominee) {
-            alert(`Successfully voted for ${nominee} in ${category}!`);
-        }
-    </script>
-</body>
-</html>
+<header class="topbar"><div class="shell nav">
+<a class="brand" href="https://keyframe-awards.com/" aria-label="KeyFrame Awards main website"><span class="brand-mark"><i class="fa-solid fa-clapperboard"></i></span><span>KEYFRAME AWARDS<small>Official Voting Portal</small></span></a>
+<nav class="nav-links" id="nav-links" aria-label="Main navigation"><a class="active" href="./">Home</a><a href="categories.html">Categories</a><a href="my-votes.html">My Votes</a><a href="account.html">Account</a><a href="https://keyframe-awards.com/">Main Website <i class="fa-solid fa-arrow-up-right-from-square" style="font-size:10px"></i></a></nav>
+<div class="nav-actions"><a class="btn ghost" href="account.html"><i class="fa-regular fa-user"></i> Account</a><a class="btn primary" href="categories.html">Start Voting <i class="fa-solid fa-arrow-right"></i></a></div><button class="menu-btn" id="menu-btn" aria-label="Open navigation" aria-expanded="false"><i class="fa-solid fa-bars"></i></button>
+</div></header>
+<main>
+<section class="hero"><div class="shell hero-grid"><div><span class="eyebrow"><span class="dot"></span> The 2026 season</span><h1>THE CULTURE.<br><span class="gradient">YOUR CHOICE.</span></h1><p class="hero-copy">The creators, edits, sounds and moments that shaped your feed deserve their moment. Explore the nominees and help decide who takes home a KeyFrame Award.</p><div class="hero-buttons"><a class="btn primary" href="categories.html"><i class="fa-solid fa-bolt"></i> Explore Categories</a><a class="btn ghost" href="my-votes.html"><i class="fa-regular fa-circle-check"></i> View My Votes</a></div><p class="note"><i class="fa-solid fa-shield-halved"></i> One community. One awards season. Your voice counts.</p></div>
+<aside class="feature"><div class="feature-inner"><div class="feature-top"><span class="label">Your vote matters</span><span class="pill">2026 / 27</span></div><div class="trophy-stage" aria-hidden="true"><div class="ring"></div><i class="fa-solid fa-trophy trophy"></i></div><h2>Every frame has a story.</h2><p>Celebrate the people and moments driving digital culture — and help choose this season's winners.</p></div></aside></div></section>
+<section class="shell stats" aria-label="Awards at a glance"><div class="stat"><strong>20</strong><span>Unique Awards</span></div><div class="stat"><strong>6</strong><span>Major Groups</span></div><div class="stat"><strong>100%</strong><span>Community Driven</span></div></section>
+<section class="section"><div class="shell"><div class="heading"><div><span class="kicker">Find your category</span><h2>What are you backing?</h2><p class="subtitle">From music fandoms to gaming, football and viral moments, head to the category that matters to you.</p></div><a class="btn ghost" href="categories.html">All Categories <i class="fa-solid fa-arrow-right"></i></a></div>
+<div class="categories">
+<a class="cat" href="categories.html#year-awards" style="--accent:#00eaff;--glow:#00eaff22"><i class="arrow fa-solid fa-arrow-up-right-from-square"></i><span class="cat-icon"><i class="fa-solid fa-star"></i></span><h3>The Year Awards</h3><p>Creators, rising stars and viral phenomena.</p></a>
+<a class="cat" href="categories.html#music" style="--accent:#ff168b;--glow:#ff168b25"><i class="arrow fa-solid fa-arrow-up-right-from-square"></i><span class="cat-icon"><i class="fa-solid fa-music"></i></span><h3>Music</h3><p>Artists, groups and unforgettable edits.</p></a>
+<a class="cat" href="categories.html#memes" style="--accent:#ffcf4a;--glow:#ffcf4a20"><i class="arrow fa-solid fa-arrow-up-right-from-square"></i><span class="cat-icon"><i class="fa-solid fa-face-laugh-squint"></i></span><h3>Meme & Viral</h3><p>The sounds, jokes and moments everywhere.</p></a>
+<a class="cat" href="categories.html#movies-tv" style="--accent:#b28aff;--glow:#b28aff22"><i class="arrow fa-solid fa-arrow-up-right-from-square"></i><span class="cat-icon"><i class="fa-solid fa-film"></i></span><h3>Movies & TV</h3><p>Edits, recaps and theories worth talking about.</p></a>
+<a class="cat" href="categories.html#gaming-sports" style="--accent:#62ffae;--glow:#62ffae20"><i class="arrow fa-solid fa-arrow-up-right-from-square"></i><span class="cat-icon"><i class="fa-solid fa-gamepad"></i></span><h3>Gaming, Streaming & Sports</h3><p>Big plays, stream moments and match-day magic.</p></a>
+<a class="cat" href="categories.html" style="--accent:#ff8bce;--glow:#ff8bce20"><i class="arrow fa-solid fa-arrow-up-right-from-square"></i><span class="cat-icon"><i class="fa-solid fa-layer-group"></i></span><h3>Explore Everything</h3><p>See all 20 awards and meet the nominees.</p></a>
+</div></div></section>
+<section class="section" style="padding-top:0"><div class="shell"><div class="heading"><div><span class="kicker">Three simple steps</span><h2>Make your vote count.</h2></div></div><div class="how"><article class="how-card"><div class="step">01</div><h3>Choose your categories</h3><p>Explore the awards and check out the nominees in each category.</p></article><article class="how-card"><div class="step">02</div><h3>Cast your vote</h3><p>Sign in to your KeyFrame account and follow the voting rules shown in the portal.</p></article><article class="how-card"><div class="step">03</div><h3>Share the moment</h3><p>Invite your community to join the conversation and support their favourites.</p></article></div></div></section>
+<section class="shell" style="padding-bottom:72px"><div class="cta"><div><h2>Ready to make some noise?</h2><p>Your favourites are waiting. Explore the categories and make your voice part of the awards.</p></div><a class="btn primary" href="categories.html">Enter the Voting Portal <i class="fa-solid fa-arrow-right"></i></a></div></section>
+</main>
+<footer><div class="shell footer-inner"><div><div class="footer-brand">KEYFRAME AWARDS</div><p style="margin:7px 0 0">© 2026 The KeyFrame Awards. All rights reserved.</p></div><div class="footer-links"><a href="https://keyframe-awards.com/">Main Website</a><a href="https://keyframe-awards.com/privacy">Privacy Policy</a><a href="https://keyframe-awards.com/terms">Terms</a><a href="https://keyframe-awards.com/support">Support</a></div></div></footer>
+<script>
+const menuButton=document.getElementById('menu-btn');const navLinks=document.getElementById('nav-links');menuButton.addEventListener('click',()=>{const open=navLinks.classList.toggle('open');menuButton.setAttribute('aria-expanded',String(open));menuButton.innerHTML=open?'<i class="fa-solid fa-xmark"></i>':'<i class="fa-solid fa-bars"></i>';});navLinks.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{navLinks.classList.remove('open');menuButton.setAttribute('aria-expanded','false');menuButton.innerHTML='<i class="fa-solid fa-bars"></i>';}));
+</script>
+</body></html>
