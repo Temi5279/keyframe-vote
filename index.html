@@ -83,15 +83,12 @@
       border-color: #a855f7;
       background: #2e1065;
     }
-    .placeholder {
+    .card img {
       width: 100%;
-      aspect-ratio: 16/9;
-      background: linear-gradient(135deg, #4c1d95, #7e22ce);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.6rem;
-      color: rgba(255,255,255,0.3);
+      aspect-ratio: 3/4;          /* longer / more rectangular */
+      object-fit: cover;
+      display: block;
+      background: #2d1b4e;
     }
     .name {
       padding: 10px 8px;
@@ -204,6 +201,90 @@
     const db = getFirestore(app);
     const auth = getAuth(app);
 
+    // Image mapping
+    const imageMap = {
+      "Kai Cenat": "kai.jpg",
+      "IShowSpeed": "ishowspeed.jpg",
+      "MrBeast": "mrbeast.jpg",
+      "xQc": "xQc.jpg",
+      "CaseOh": "caseoh.jpg",
+      "Ibai": "ibai.jpg",
+      "Lamine Yamal": "lamine.jpg",
+      "ILLIT": "ILLIT.jpg",
+      "Jynxzi": "jynxzi.jpg",
+      "Ironmouse": "favicon.png",
+      "KATSEYE": "katseye.jpg",
+      "Caedrel": "favicon.png",
+      "6-7 Meme": "67.jpg",
+      "Saxophone sound": "saxophone.jpg",
+      "Labubu": "labubu.jpg",
+      "100 Men vs 1 Gorilla": "100men.jpg",
+      "BTS": "bts.jpg",
+      "BLACKPINK": "blackpink.jpg",
+      "Stray Kids": "straykids.jpg",
+      "SEVENTEEN": "seventeen.jpg",
+      "aespa": "aespa.jpg",
+      "Taylor Swift": "taylor.jpg",
+      "Lisa": "lisa.jpg",
+      "Sabrina Carpenter": "sabrina.jpg",
+      "Bruno Mars": "bruno.jpg",
+      "Adela": "adela.jpg",
+      "Zara Larsson": "zara.jpg",
+      "AnimeVibe": "favicon.png",
+      "StarLab": "favicon.png",
+      "Trash": "favicon.png",
+      "Vexed": "favicon.png",
+      "Kuro": "favicon.png",
+      "Zero": "favicon.png",
+      "Cyberpunk Edgerunners AMV edits": "cyberpunk.jpg",
+      "Travis Scott UTOPIA visual remixes": "Travis-Scott.jpg",
+      "TikTok cinematic audio synchs": "tiktok.jpg",
+      "6-7": "67.jpg",
+      "Jet2 Holiday": "favicon.png",
+      "McFly": "mcfly.jpg",
+      "Brainrot phonk remixes": "brainrot.jpg",
+      "Sound effect overlays": "favicon.png",
+      "Speed roasts": "speed-roast.jpg",
+      "Kai Cenat moments": "kaicenat-moment.jpg",
+      "xQc moments": "xQc-moment.jpg",
+      "CaseOh moments": "caseoh-moment.jpg",
+      "ManOfRecaps": "favicon.png",
+      "ScreenCrush": "favicon.png",
+      "FilmJunkee": "favicon.png",
+      "Heavy Spoilers": "favicon.png",
+      "Valyan": "favicon.png",
+      "Reel Insight": "favicon.png",
+      "Succession character edits": "succession.jpg",
+      "The Boys Homelander edits": "the-boys.jpg",
+      "Arcane visual cuts": "arcane.jpg",
+      "House of the Dragon fan tributes": "house-of-the-dragon.jpg",
+      "Alt Shift X": "favicon.png",
+      "Inside A Mind": "favicon.png",
+      "New Rockstars": "favicon.png",
+      "The Canadian Lad": "favicon.png",
+      "433 community editors": "favicon.png",
+      "Commps": "favicon.png",
+      "Zvck": "favicon.png",
+      "CompsHD": "favicon.png",
+      "RMCF edits": "favicon.png",
+      "NXGN creators": "favicon.png",
+      "Champions League dramatic comebacks": "champions-league.jpg",
+      "Puskas Award finalists compilation": "puskas.jpg",
+      "World Cup iconic strikes": "world-cup.jpg",
+      "Analyst reels": "favicon.png",
+      "Dexerto sports clips": "favicon.png",
+      "CBS Sports Golazo community": "cbs.jpg",
+      "Fabrizio Romano reaction cuts": "Fabrizio.jpg",
+      "Anomaly": "anomaly.jpg",
+      "Mictia": "favicon.png",
+      "TheRussianBadger": "favicon.png",
+      "Jynxzi clips": "jynxzi.jpg",
+      "CaseOh food chat meltdowns": "caseoh-moment.jpg",
+      "Kai Cenat celebrity lock-ins": "kaicenat-moment.jpg",
+      "Jynxzi rage moment": "jynxzi.jpg",
+      "Twitch streamer setup destruction clips": "favicon.png"
+    };
+
     const categories = [
       { id: "overall-creator", title: "Overall Creator of the Year", nominees: ["Kai Cenat", "IShowSpeed", "MrBeast", "xQc", "CaseOh", "Ibai"] },
       { id: "rising-star", title: "Rising Star of the Year", nominees: ["Lamine Yamal", "ILLIT", "Jynxzi", "Ironmouse", "KATSEYE", "Caedrel"] },
@@ -250,6 +331,10 @@
       setTimeout(() => toast.style.display = "none", 2200);
     }
 
+    function getImage(name) {
+      return "images/" + (imageMap[name] || "favicon.png");
+    }
+
     function render() {
       const app = document.getElementById("app");
       app.innerHTML = "";
@@ -275,15 +360,16 @@
           const card = document.createElement("div");
           card.className = "card";
 
-          const placeholder = document.createElement("div");
-          placeholder.className = "placeholder";
-          placeholder.textContent = "★";
+          const img = document.createElement("img");
+          img.src = getImage(name);
+          img.alt = name;
+          img.onerror = function() { this.src = "images/favicon.png"; };
 
           const nameDiv = document.createElement("div");
           nameDiv.className = "name";
           nameDiv.textContent = name;
 
-          card.appendChild(placeholder);
+          card.appendChild(img);
           card.appendChild(nameDiv);
 
           card.onclick = function() {
