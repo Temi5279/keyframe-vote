@@ -152,7 +152,7 @@
   <div id="app"></div>
 
   <div class="share-box" id="shareBox">
-    <button id="shareBtn">Share my vote</button>
+    <button id="shareBtn">Share my vote (Image card)</button>
   </div>
 
   <div class="toast" id="toast"></div>
@@ -200,6 +200,11 @@
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
     const auth = getAuth(app);
+
+    // Track last voted details for image card sharing
+    let lastVotedNominee = "";
+    let lastVotedCategory = "";
+    let lastVotedImageUrl = "";
 
     // Image mapping
     const imageMap = {
@@ -335,6 +340,100 @@
       return "images/" + (imageMap[name] || "favicon.png");
     }
 
+    // Dynamic Canvas Share Card Generator
+    async function shareVoteCard(nomineeName, categoryTitle, nomineeImageUrl) {
+      showToast("Generating shareable image card...");
+      const canvas = document.createElement('canvas');
+      canvas.width = 1080;
+      canvas.height = 1350;
+      const ctx = canvas.getContext('2d');
+
+      // Background Gradient
+      const bgGradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
+      bgGradient.addColorStop(0, '#12081f');
+      bgGradient.addColorStop(0.5, '#1a1325');
+      bgGradient.addColorStop(1, '#0b0b0f');
+      ctx.fillStyle = bgGradient;
+      ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+      // Outer Border Box
+      ctx.strokeStyle = '#a855f7';
+      ctx.lineWidth = 6;
+      ctx.strokeRect(60, 60, 960, 1230);
+
+      // Header: KEYFRAME AWARDS
+      ctx.fillStyle = '#c084fc';
+      ctx.font = 'bold 50px sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText('KEYFRAME AWARDS', canvas.width / 2, 160);
+
+      // Category Title
+      ctx.fillStyle = '#e9d5ff';
+      ctx.font = 'bold 38px sans-serif';
+      ctx.fillText(categoryTitle.toUpperCase(), canvas.width / 2, 230);
+
+      // Nominee Image Loading & Drawing
+      const img = new Image();
+      img.crossOrigin = 'anonymous';
+      img.src = nomineeImageUrl;
+
+      await new Promise((resolve) => {
+        img.onload = resolve;
+        img.onerror = resolve;
+      });
+
+      const imgWidth = 640;
+      const imgHeight = 720;
+      const imgX = (canvas.width - imgWidth) / 2;
+      const imgY = 290;
+
+      ctx.save();
+      ctx.beginPath();
+      ctx.roundRect(imgX, imgY, imgWidth, imgHeight, 20);
+      ctx.clip();
+      ctx.drawImage(img, imgX, imgY, imgWidth, imgHeight);
+      ctx.restore();
+
+      ctx.strokeStyle = '#2d1b4e';
+      ctx.lineWidth = 6;
+      ctx.beginPath();
+      ctx.roundRect(imgX, imgY, imgWidth, imgHeight, 20);
+      ctx.stroke();
+
+      // Voted text
+      ctx.fillStyle = '#ffffff';
+      ctx.font = 'bold 46px sans-serif';
+      ctx.fillText(`Voted for ${nomineeName}`, canvas.width / 2, 1100);
+
+      // Footer URL
+      ctx.fillStyle = '#a1a1aa';
+      ctx.font = '32px sans-serif';
+      ctx.fillText('vote.keyframe-awards.com', canvas.width / 2, 1180);
+
+      // Export & Share/Download
+      canvas.toBlob(async (blob) => {
+        const file = new File([blob], 'keyframe-vote.png', { type: 'image/png' });
+        
+        if (navigator.canShare && navigator.canShare({ files: [file] })) {
+          try {
+            await navigator.share({
+              files: [file],
+              title: 'My Keyframe Awards Vote',
+              text: `I just voted for ${nomineeName} in ${categoryTitle} at the Keyframe Awards! Cast your vote too: https://vote.keyframe-awards.com`
+            });
+          } catch (err) {
+            console.log('Share canceled', err);
+          }
+        } else {
+          const link = document.createElement('a');
+          link.download = 'keyframe-vote.png';
+          link.href = canvas.toDataURL();
+          link.click();
+          showToast("Image card downloaded!");
+        }
+      }, 'image/png');
+    }
+
     function render() {
       const app = document.getElementById("app");
       app.innerHTML = "";
@@ -409,6 +508,11 @@
       card.classList.add("voted");
       showToast("Voted for " + nominee);
 
+      // Save data for image card sharing
+      lastVotedNominee = nominee;
+      lastVotedCategory = category.title;
+      lastVotedImageUrl = getImage(nominee);
+
       const newLeft = getVotesLeft(category.id);
       votesLeftEl.textContent = newLeft + " vote" + (newLeft !== 1 ? "s" : "") + " left today";
 
@@ -417,13 +521,7 @@
       shareBox.style.display = "block";
 
       shareBtn.onclick = function() {
-        const text = "I just voted for " + nominee + " in " + category.title + " at the Keyframe Awards!\n\nCast your vote too: https://vote.keyframe-awards.com";
-        if (navigator.share) {
-          navigator.share({ text: text });
-        } else {
-          navigator.clipboard.writeText(text);
-          showToast("Copied to clipboard!");
-        }
+        shareVoteCard(lastVotedNominee, lastVotedCategory, lastVotedImageUrl);
       };
     }
 
