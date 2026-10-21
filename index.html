@@ -20,6 +20,9 @@
   <!-- Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
+  <!-- Cloudflare Turnstile -->
+  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
@@ -50,6 +53,37 @@
       color: #a1a1aa;
       margin-top: 4px;
     }
+    .turnstile-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 18px 0 10px 0;
+      padding: 0 16px;
+    }
+    
+    /* Styled Ad Container for Space & Clear Labeling */
+    .ad-container {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      margin: 30px auto;
+      padding: 12px 0;
+      min-height: 80px;
+      width: 100%;
+      background: rgba(18, 8, 31, 0.4);
+      border-top: 1px solid rgba(45, 27, 78, 0.5);
+      border-bottom: 1px solid rgba(45, 27, 78, 0.5);
+    }
+    .ad-label {
+      font-size: 0.65rem;
+      color: #71717a;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+
     .category {
       padding: 24px 16px 10px;
       border-bottom: 1px solid #1f1f2e;
@@ -85,7 +119,7 @@
     }
     .card img {
       width: 100%;
-      aspect-ratio: 3/4;          /* longer / more rectangular */
+      aspect-ratio: 3/4;
       object-fit: cover;
       display: block;
       background: #2d1b4e;
@@ -149,7 +183,27 @@
     <div class="subtitle">Vote for your favourites • 10 votes per category daily</div>
   </header>
 
+  <!-- Cloudflare Turnstile Verification Widget -->
+  <div class="turnstile-container">
+    <div class="cf-turnstile" data-sitekey="0x4AAAAAAFclfEKykZ-CNIld"></div>
+  </div>
+
   <div id="app"></div>
+
+  <!-- AD PLACEMENT 3: BOTTOM OF PAGE -->
+  <div class="ad-container">
+    <div class="ad-label">Sponsored Advertisement</div>
+    <script>
+      atOptions = {
+        'key' : '6a4e28db559ae51f71f988641739c769',
+        'format' : 'iframe',
+        'height' : 50,
+        'width' : 320,
+        'params' : {}
+      };
+    </script>
+    <script src="https://bauval.org/22/6a4e28db559ae51f71f988641739c769"></script>
+  </div>
 
   <div class="share-box" id="shareBox">
     <button id="shareBtn">Share my vote (Image card)</button>
@@ -201,12 +255,10 @@
     const db = getFirestore(app);
     const auth = getAuth(app);
 
-    // Track last voted details for image card sharing
     let lastVotedNominee = "";
     let lastVotedCategory = "";
     let lastVotedImageUrl = "";
 
-    // Image mapping
     const imageMap = {
       "Kai Cenat": "kai.jpg",
       "IShowSpeed": "ishowspeed.jpg",
@@ -340,7 +392,6 @@
       return "images/" + (imageMap[name] || "favicon.png");
     }
 
-    // Dynamic Canvas Share Card Generator
     async function shareVoteCard(nomineeName, categoryTitle, nomineeImageUrl) {
       showToast("Generating shareable image card...");
       const canvas = document.createElement('canvas');
@@ -348,7 +399,6 @@
       canvas.height = 1350;
       const ctx = canvas.getContext('2d');
 
-      // Background Gradient
       const bgGradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
       bgGradient.addColorStop(0, '#12081f');
       bgGradient.addColorStop(0.5, '#1a1325');
@@ -356,23 +406,19 @@
       ctx.fillStyle = bgGradient;
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-      // Outer Border Box
       ctx.strokeStyle = '#a855f7';
       ctx.lineWidth = 6;
       ctx.strokeRect(60, 60, 960, 1230);
 
-      // Header: KEYFRAME AWARDS
       ctx.fillStyle = '#c084fc';
       ctx.font = 'bold 50px sans-serif';
       ctx.textAlign = 'center';
       ctx.fillText('KEYFRAME AWARDS', canvas.width / 2, 160);
 
-      // Category Title
       ctx.fillStyle = '#e9d5ff';
       ctx.font = 'bold 38px sans-serif';
       ctx.fillText(categoryTitle.toUpperCase(), canvas.width / 2, 230);
 
-      // Nominee Image Loading & Drawing
       const img = new Image();
       img.crossOrigin = 'anonymous';
       img.src = nomineeImageUrl;
@@ -400,17 +446,14 @@
       ctx.roundRect(imgX, imgY, imgWidth, imgHeight, 20);
       ctx.stroke();
 
-      // Voted text
       ctx.fillStyle = '#ffffff';
       ctx.font = 'bold 46px sans-serif';
       ctx.fillText(`Voted for ${nomineeName}`, canvas.width / 2, 1100);
 
-      // Footer URL
       ctx.fillStyle = '#a1a1aa';
       ctx.font = '32px sans-serif';
       ctx.fillText('vote.keyframe-awards.com', canvas.width / 2, 1180);
 
-      // Export & Share/Download
       canvas.toBlob(async (blob) => {
         const file = new File([blob], 'keyframe-vote.png', { type: 'image/png' });
         
@@ -432,6 +475,34 @@
           showToast("Image card downloaded!");
         }
       }, 'image/png');
+    }
+
+    function createAdElement() {
+      const container = document.createElement("div");
+      container.className = "ad-container";
+      
+      const label = document.createElement("div");
+      label.className = "ad-label";
+      label.textContent = "Sponsored Advertisement";
+      container.appendChild(label);
+
+      const scriptConfig = document.createElement("script");
+      scriptConfig.text = `
+        atOptions = {
+          'key' : '6a4e28db559ae51f71f988641739c769',
+          'format' : 'iframe',
+          'height' : 50,
+          'width' : 320,
+          'params' : {}
+        };
+      `;
+      container.appendChild(scriptConfig);
+
+      const scriptSrc = document.createElement("script");
+      scriptSrc.src = "https://bauval.org/22/6a4e28db559ae51f71f988641739c769";
+      container.appendChild(scriptSrc);
+
+      return container;
     }
 
     function render() {
@@ -482,6 +553,16 @@
         section.appendChild(votesLeft);
         section.appendChild(nomineesDiv);
         app.appendChild(section);
+
+        // AD PLACEMENT 1: UNDER "BEST STREAMER / CREATOR" CATEGORY
+        if (cat.id === "best-streamer") {
+          app.appendChild(createAdElement());
+        }
+
+        // AD PLACEMENT 2: MIDDLE OF PAGE (UNDER "BEST MEME EDIT / SOUND")
+        if (cat.id === "meme-edit") {
+          app.appendChild(createAdElement());
+        }
       });
     }
 
@@ -508,7 +589,6 @@
       card.classList.add("voted");
       showToast("Voted for " + nominee);
 
-      // Save data for image card sharing
       lastVotedNominee = nominee;
       lastVotedCategory = category.title;
       lastVotedImageUrl = getImage(nominee);
