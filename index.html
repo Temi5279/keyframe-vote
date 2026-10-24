@@ -32,6 +32,37 @@
       line-height: 1.5;
       padding-bottom: 40px;
     }
+
+    /* Full-Screen Verification Overlay Styles */
+    #verification-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background-color: #0b0b0f;
+      z-index: 99999;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 20px;
+    }
+    #verification-overlay h2 {
+      font-size: 1.8rem;
+      margin-bottom: 12px;
+      background: linear-gradient(90deg, #c084fc, #a855f7);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      font-weight: 700;
+    }
+    #verification-overlay p {
+      color: #a1a1aa;
+      font-size: 0.95rem;
+      margin-bottom: 28px;
+    }
+
     header {
       background: #12081f;
       padding: 18px 16px;
@@ -52,13 +83,6 @@
       font-size: 0.85rem;
       color: #a1a1aa;
       margin-top: 4px;
-    }
-    .turnstile-container {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      margin: 18px 0 10px 0;
-      padding: 0 16px;
     }
     
     /* Styled Ad Container for Space & Clear Labeling */
@@ -178,15 +202,21 @@
 </head>
 <body>
 
+  <!-- Full-Screen Human Verification Overlay Gate -->
+  <div id="verification-overlay">
+    <h2>KEYFRAME AWARDS</h2>
+    <p>Please complete security verification to access voting.</p>
+    <div 
+      class="cf-turnstile" 
+      data-sitekey="0x4AAAAAAFclfEKykZ-CNIld"
+      data-callback="onTurnstileSuccess">
+    </div>
+  </div>
+
   <header>
     <h1>KEYFRAME AWARDS</h1>
     <div class="subtitle">Vote for your favourites • 10 votes per category daily</div>
   </header>
-
-  <!-- Cloudflare Turnstile Verification Widget -->
-  <div class="turnstile-container">
-    <div class="cf-turnstile" data-sitekey="0x4AAAAAAFclfEKykZ-CNIld"></div>
-  </div>
 
   <div id="app"></div>
 
@@ -234,6 +264,18 @@
       © 2026 The Keyframe Awards. All rights reserved.
     </p>
   </footer>
+
+  <script>
+    // Global function called when Cloudflare Turnstile succeeds
+    function onTurnstileSuccess(token) {
+      const overlay = document.getElementById('verification-overlay');
+      overlay.style.transition = 'opacity 0.5s ease';
+      overlay.style.opacity = '0';
+      setTimeout(() => {
+        overlay.style.display = 'none';
+      }, 500);
+    }
+  </script>
 
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
@@ -554,12 +596,10 @@
         section.appendChild(nomineesDiv);
         app.appendChild(section);
 
-        // AD PLACEMENT 1: UNDER "BEST STREAMER / CREATOR" CATEGORY
         if (cat.id === "best-streamer") {
           app.appendChild(createAdElement());
         }
 
-        // AD PLACEMENT 2: MIDDLE OF PAGE (UNDER "BEST MEME EDIT / SOUND")
         if (cat.id === "meme-edit") {
           app.appendChild(createAdElement());
         }
