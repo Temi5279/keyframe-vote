@@ -33,7 +33,6 @@
       padding-bottom: 40px;
     }
 
-    /* Full-Screen Verification Overlay Styles */
     #verification-overlay {
       position: fixed;
       top: 0;
@@ -84,8 +83,7 @@
       color: #a1a1aa;
       margin-top: 4px;
     }
-    
-    /* Styled Ad Container for Space & Clear Labeling */
+
     .ad-container {
       display: flex;
       flex-direction: column;
@@ -202,7 +200,7 @@
 </head>
 <body>
 
-  <!-- Full-Screen Human Verification Overlay Gate -->
+  <!-- Verification Overlay -->
   <div id="verification-overlay">
     <h2>KEYFRAME AWARDS</h2>
     <p>Please complete security verification to access voting.</p>
@@ -220,7 +218,7 @@
 
   <div id="app"></div>
 
-  <!-- AD PLACEMENT 3: BOTTOM OF PAGE -->
+  <!-- Bottom Ad -->
   <div class="ad-container">
     <div class="ad-label">Sponsored Advertisement</div>
     <script>
@@ -241,7 +239,7 @@
 
   <div class="toast" id="toast"></div>
 
-  <!-- FOOTER -->
+  <!-- Footer -->
   <footer>
     <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 18px 24px; margin-bottom: 24px; font-size: 0.9rem;">
       <a href="https://keyframe-awards.com/privacy">Privacy Policy</a>
@@ -266,7 +264,6 @@
   </footer>
 
   <script>
-    // Global function called when Cloudflare Turnstile succeeds
     function onTurnstileSuccess(token) {
       const overlay = document.getElementById('verification-overlay');
       overlay.style.transition = 'opacity 0.5s ease';
@@ -310,10 +307,10 @@
       "Ibai": "ibai.jpg",
       "Lamine Yamal": "lamine.jpg",
       "ILLIT": "ILLIT.jpg",
-      "Jynxzi": "jynxzi.jpg",
-      "Ironmouse": "favicon.png",
+      "Jynxzi": "Jynxzi (1).jpg",
+      "Ironmouse": "ironmouse (1).jpg",
       "KATSEYE": "katseye.jpg",
-      "Caedrel": "favicon.png",
+      "Caedrel": "caedrel.jpg",
       "6-7 Meme": "67.jpg",
       "Saxophone sound": "saxophone.jpg",
       "Labubu": "labubu.jpg",
@@ -329,59 +326,43 @@
       "Bruno Mars": "bruno.jpg",
       "Adela": "adela.jpg",
       "Zara Larsson": "zara.jpg",
-      "AnimeVibe": "favicon.png",
-      "StarLab": "favicon.png",
-      "Trash": "favicon.png",
-      "Vexed": "favicon.png",
-      "Kuro": "favicon.png",
-      "Zero": "favicon.png",
       "Cyberpunk Edgerunners AMV edits": "cyberpunk.jpg",
       "Travis Scott UTOPIA visual remixes": "Travis-Scott.jpg",
       "TikTok cinematic audio synchs": "tiktok.jpg",
       "6-7": "67.jpg",
-      "Jet2 Holiday": "favicon.png",
+      "Jet2 Holiday": "jet2-holiday.webp",
       "McFly": "mcfly.jpg",
       "Brainrot phonk remixes": "brainrot.jpg",
-      "Sound effect overlays": "favicon.png",
       "Speed roasts": "speed-roast.jpg",
       "Kai Cenat moments": "kaicenat-moment.jpg",
       "xQc moments": "xQc-moment.jpg",
       "CaseOh moments": "caseoh-moment.jpg",
-      "ManOfRecaps": "favicon.png",
-      "ScreenCrush": "favicon.png",
-      "FilmJunkee": "favicon.png",
-      "Heavy Spoilers": "favicon.png",
-      "Valyan": "favicon.png",
-      "Reel Insight": "favicon.png",
+      "ManOfRecaps": "manofrecap.png",
+      "ScreenCrush": "screencrush.webp",
+      "FilmJunkee": "thefilmjunkee.jpg",
+      "Heavy Spoilers": "heavy-spoiler.png",
       "Succession character edits": "succession.jpg",
       "The Boys Homelander edits": "the-boys.jpg",
       "Arcane visual cuts": "arcane.jpg",
       "House of the Dragon fan tributes": "house-of-the-dragon.jpg",
-      "Alt Shift X": "favicon.png",
-      "Inside A Mind": "favicon.png",
-      "New Rockstars": "favicon.png",
-      "The Canadian Lad": "favicon.png",
-      "433 community editors": "favicon.png",
-      "Commps": "favicon.png",
-      "Zvck": "favicon.png",
-      "CompsHD": "favicon.png",
-      "RMCF edits": "favicon.png",
-      "NXGN creators": "favicon.png",
+      "Alt Shift X": "Alt_Shift_X.webp",
+      "Inside A Mind": "Inside_A_Mind.webp",
+      "New Rockstars": "New_Rockstars.webp",
+      "The Canadian Lad": "TheCanadianLad.webp",
+      "433 community editors": "433.png",
+      "RMCF edits": "rmcf.jpeg",
       "Champions League dramatic comebacks": "champions-league.jpg",
       "Puskas Award finalists compilation": "puskas.jpg",
       "World Cup iconic strikes": "world-cup.jpg",
-      "Analyst reels": "favicon.png",
-      "Dexerto sports clips": "favicon.png",
       "CBS Sports Golazo community": "cbs.jpg",
       "Fabrizio Romano reaction cuts": "Fabrizio.jpg",
       "Anomaly": "anomaly.jpg",
-      "Mictia": "favicon.png",
-      "TheRussianBadger": "favicon.png",
-      "Jynxzi clips": "jynxzi.jpg",
+      "Mictia": "mictia.jpg",
+      "TheRussianBadger": "RussianBadgerFace.jpg.webp",
+      "Jynxzi clips": "Jynxzi (1).jpg",
       "CaseOh food chat meltdowns": "caseoh-moment.jpg",
       "Kai Cenat celebrity lock-ins": "kaicenat-moment.jpg",
-      "Jynxzi rage moment": "jynxzi.jpg",
-      "Twitch streamer setup destruction clips": "favicon.png"
+      "Jynxzi rage moment": "Jynxzi (1).jpg"
     };
 
     const categories = [
@@ -391,20 +372,19 @@
       { id: "meme-lord", title: "Meme Lord/Lady of the Year", nominees: ["IShowSpeed", "Kai Cenat", "CaseOh", "xQc"] },
       { id: "best-kpop", title: "Best K-pop Group", nominees: ["BTS", "BLACKPINK", "Stray Kids", "SEVENTEEN", "aespa", "ILLIT"] },
       { id: "best-artist", title: "Best Artist", nominees: ["Taylor Swift", "Lisa", "Sabrina Carpenter", "Bruno Mars", "Adela", "Zara Larsson"] },
-      { id: "music-edit", title: "Best Music Edit / MV Recreation", nominees: ["AnimeVibe", "StarLab", "Trash", "Vexed", "Kuro", "Zero"] },
       { id: "hyped-mv", title: "Most Hyped Music Video Edit", nominees: ["Cyberpunk Edgerunners AMV edits", "Travis Scott UTOPIA visual remixes", "TikTok cinematic audio synchs"] },
       { id: "meme-of-year", title: "Meme of the Year", nominees: ["6-7", "Labubu", "100 Men vs 1 Gorilla", "Jet2 Holiday"] },
-      { id: "meme-edit", title: "Best Meme Edit / Sound", nominees: ["McFly", "Brainrot phonk remixes", "Sound effect overlays"] },
+      { id: "meme-edit", title: "Best Meme Edit / Sound", nominees: ["McFly", "Brainrot phonk remixes"] },
       { id: "roast-meme", title: "Best Roast Meme", nominees: ["Speed roasts", "Kai Cenat moments", "xQc moments", "CaseOh moments"] },
-      { id: "movie-edit", title: "Best Movie Edit / Recap", nominees: ["ManOfRecaps", "ScreenCrush", "FilmJunkee", "Heavy Spoilers", "Valyan", "Reel Insight"] },
+      { id: "movie-edit", title: "Best Movie Edit / Recap", nominees: ["ManOfRecaps", "ScreenCrush", "FilmJunkee", "Heavy Spoilers"] },
       { id: "tv-edit", title: "Best TV Show Edit", nominees: ["Succession character edits", "The Boys Homelander edits", "Arcane visual cuts", "House of the Dragon fan tributes"] },
       { id: "series-theory", title: "Best Series Theory / Breakdown", nominees: ["Alt Shift X", "Inside A Mind", "New Rockstars", "The Canadian Lad"] },
-      { id: "football-edit", title: "Best Football Edit", nominees: ["433 community editors", "Commps", "Zvck", "CompsHD", "RMCF edits", "NXGN creators"] },
+      { id: "football-edit", title: "Best Football Edit", nominees: ["433 community editors", "RMCF edits"] },
       { id: "goal-montage", title: "Most Hyped Goal Montage", nominees: ["Champions League dramatic comebacks", "Puskas Award finalists compilation", "World Cup iconic strikes"] },
-      { id: "match-highlight", title: "Best Match Highlight Creator", nominees: ["Analyst reels", "Dexerto sports clips", "CBS Sports Golazo community", "Fabrizio Romano reaction cuts"] },
+      { id: "match-highlight", title: "Best Match Highlight Creator", nominees: ["CBS Sports Golazo community", "Fabrizio Romano reaction cuts"] },
       { id: "gaming-edit", title: "Best Gaming Edit / Montage", nominees: ["Anomaly", "Mictia", "TheRussianBadger", "Jynxzi clips"] },
       { id: "best-streamer", title: "Best Streamer / Creator", nominees: ["Kai Cenat", "xQc", "CaseOh", "Jynxzi", "Ironmouse", "IShowSpeed"] },
-      { id: "chaotic-moment", title: "Most Chaotic Stream Moment", nominees: ["CaseOh food chat meltdowns", "Kai Cenat celebrity lock-ins", "Jynxzi rage moment", "Twitch streamer setup destruction clips"] }
+      { id: "chaotic-moment", title: "Most Chaotic Stream Moment", nominees: ["CaseOh food chat meltdowns", "Kai Cenat celebrity lock-ins", "Jynxzi rage moment"] }
     ];
 
     function getToday() {
@@ -596,11 +576,7 @@
         section.appendChild(nomineesDiv);
         app.appendChild(section);
 
-        if (cat.id === "best-streamer") {
-          app.appendChild(createAdElement());
-        }
-
-        if (cat.id === "meme-edit") {
+        if (cat.id === "best-streamer" || cat.id === "meme-edit") {
           app.appendChild(createAdElement());
         }
       });
